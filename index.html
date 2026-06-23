@@ -4,7 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FORTE STEEL — архитектурные навесы под ключ | Производство по всей России</title>
-<meta name="description" content="Проектируем и производим премиальные металлические навесы под ключ. Собственный цех, расчёт снеговой нагрузки, порошковая покраска в любой RAL, монтаж по всей России. Гарантия.">
+<meta name="description" content="Проектируем и производим премиальные металлические навесы под ключ. Собственный цех, расчёт снеговой нагрузки по СП 20.13330, порошковая покраска в любой RAL, монтаж по всей России. Гарантия 5 лет.">
+<meta name="keywords" content="навес под ключ, навес для авто, металлический навес, навес с хозблоком, архитектурный навес, навес premium, навес Москва, навес СПб, навес Екатеринбург">
+<link rel="canonical" href="https://shtrosergey08-gif.github.io/forte-steel/">
+<meta name="theme-color" content="#1a1c1f">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="FORTE STEEL">
+<meta property="og:title" content="FORTE STEEL — архитектурные навесы под ключ">
+<meta property="og:description" content="Премиальные металлические навесы под ключ от завода полного цикла. Расчёт под снеговую зону, своя порошковая покраска, монтаж по РФ. Гарантия 5 лет.">
+<meta property="og:image" content="https://shtrosergey08-gif.github.io/forte-steel/assets/gen_hero.jpg">
+<meta property="og:url" content="https://shtrosergey08-gif.github.io/forte-steel/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FORTE STEEL — архитектурные навесы под ключ">
+<meta name="twitter:description" content="Премиальные металлические навесы под ключ от завода полного цикла. Гарантия 5 лет.">
+<meta name="twitter:image" content="https://shtrosergey08-gif.github.io/forte-steel/assets/gen_hero.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%231a1c1f'/%3E%3Ctext x='50' y='68' font-family='Arial' font-size='58' font-weight='bold' fill='%23c2a36b' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -507,7 +523,7 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
           <h3 class="quiz-q">Тип кровли?</h3>
           <div class="quiz-opts">
             <button class="quiz-opt" data-val="Профлист">Профлист</button>
-            <button class="quiz-opt" data-val="Поликарбонат">Поликарбонат</button>
+            <button class="quiz-opt" data-val="Алюмокомпозит">Алюмокомпозит</button>
             <button class="quiz-opt" data-val="Фальц / металл">Фальц-металл</button>
             <button class="quiz-opt" data-val="Подскажите вариант">Подскажите вариант</button>
           </div>
@@ -556,7 +572,7 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 СТАЛЬФОРМ. Все права защищены.</span>
+      <span>© 2026 FORTE STEEL · ИП Штро Г.Г. Все права защищены.</span>
       <a href="#" class="muted">Политика конфиденциальности</a>
     </div>
   </div>
@@ -600,13 +616,29 @@ addEventListener('mousemove',e=>{if(!hero)return;const x=(e.clientX/innerWidth-.
   }));
   quiz.querySelectorAll('.quiz-back').forEach(b=>b.addEventListener('click',()=>{if(i>0)show(i-1)}));
   const submit=document.getElementById('qSubmit');
-  submit&&submit.addEventListener('click',()=>{
+  submit&&submit.addEventListener('click',async()=>{
     const name=document.getElementById('qName').value.trim();
     const phone=document.getElementById('qPhone').value.trim();
     const city=document.getElementById('qCity').value.trim();
-    if(!name||!phone){alert('Заполните имя и телефон');return;}
+    if(!name||phone.replace(/\D/g,'').length<10){alert('Укажите имя и корректный телефон');return;}
     answers['Город']=city; answers['Имя']=name; answers['Телефон']=phone;
-    // TODO: отправка заявки в CRM/Telegram (answers)
+    submit.disabled=true; const _t=submit.textContent; submit.textContent='Отправляем…';
+    const payload={
+      _subject:'🏗 Заявка FORTE STEEL — '+name+' ('+(city||'регион не указан')+')',
+      Имя:name, Телефон:phone, Город:city||'—',
+      'Объект':answers['Тип']||'—',
+      'Размер / авто':answers['Размер']||'—',
+      'Кровля':answers['Кровля']||'—',
+      Источник:location.href, _template:'table', _captcha:'false'
+    };
+    try{
+      await fetch('https://formsubmit.co/ajax/shtrosergey08@gmail.com',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify(payload)
+      });
+    }catch(e){/* лид всё равно сохраним локально ниже */}
+    try{localStorage.setItem('forte_lead_'+Date.now(),JSON.stringify(payload));}catch(e){}
     steps.forEach(s=>s.classList.remove('active'));
     document.getElementById('quizDone').hidden=false;
     bar.style.width='100%';
