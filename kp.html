@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>FORTE STEEL — Коммерческое предложение</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#1a1c1f;--graphite:#474a51;--bronze:#b9954f;--line:#d9d6cf;--muted:#6b6f76;--bg:#f4f2ee}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Manrope',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;font-size:15px}
+  .hint{max-width:820px;margin:18px auto 0;padding:12px 18px;background:#fff7e6;border:1px solid #e8d9a8;border-radius:10px;font-size:13px;color:#7a6420}
+  .page{max-width:820px;margin:18px auto;background:#fff;padding:54px 56px;box-shadow:0 10px 40px rgba(0,0,0,.08)}
+  h1,h2,h3,.brand{font-family:'Unbounded',sans-serif}
+  .top{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid var(--ink);padding-bottom:20px;margin-bottom:30px}
+  .brand{font-size:26px;font-weight:800;letter-spacing:.04em}
+  .brand span{color:var(--bronze)}
+  .brand small{display:block;font-family:'Manrope';font-size:11px;letter-spacing:.22em;color:var(--muted);font-weight:600;margin-top:6px;text-transform:uppercase}
+  .top .meta{text-align:right;font-size:12.5px;color:var(--muted)}
+  h1{font-size:27px;line-height:1.2;margin:6px 0 4px}
+  .lead{color:var(--muted);font-size:15px;margin-bottom:30px}
+  h2{font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:var(--bronze);margin:30px 0 14px;padding-top:18px;border-top:1px solid var(--line)}
+  p{margin:.5em 0}
+  ul{margin:.5em 0 .5em 18px}li{margin:.35em 0}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+  th,td{border:1px solid var(--line);padding:10px 12px;text-align:left}
+  th{background:#f0ede7;font-family:'Manrope';font-weight:700}
+  td.r,th.r{text-align:right;white-space:nowrap}
+  .total{display:flex;justify-content:space-between;align-items:center;background:var(--ink);color:#fff;padding:20px 26px;border-radius:12px;margin:22px 0}
+  .total .lab{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#b9bcc2}
+  .total .val{font-family:'Unbounded';font-size:26px;font-weight:800;color:#e7c987}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .card{border:1px solid var(--line);border-radius:10px;padding:16px}
+  .card b{display:block;margin-bottom:4px}
+  .steps{counter-reset:s;list-style:none;margin:0}
+  .steps li{counter-increment:s;padding:8px 0 8px 38px;position:relative;border-bottom:1px solid var(--line)}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:7px;width:26px;height:26px;background:var(--graphite);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+  .ph{background:#fff2cc;padding:1px 6px;border-radius:4px;font-weight:600}
+  .foot{margin-top:34px;border-top:3px solid var(--ink);padding-top:18px;display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted)}
+  .print-btn{position:fixed;right:20px;bottom:20px;background:var(--ink);color:#fff;border:none;padding:14px 22px;border-radius:100px;font-family:'Manrope';font-weight:600;font-size:14px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.2)}
+  @media print{
+    body{background:#fff}.hint,.print-btn{display:none}
+    .page{box-shadow:none;margin:0;max-width:100%;padding:0}
+    h2{break-after:avoid}table,.total,.card{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div class="hint">📝 Замените поля <span class="ph">{{...}}</span> под конкретного клиента, затем нажмите «Скачать PDF» (печать → Сохранить как PDF). Цены/спецификацию подставить из реальной сметы конструктора.</div>
+<div class="page">
+  <div class="top">
+    <div class="brand">FORTE <span>STEEL</span><small>Архитектурные навесы</small></div>
+    <div class="meta">
+      Коммерческое предложение<br>
+      № <span class="ph">{{НОМЕР}}</span> от <span class="ph">{{ДАТА}}</span><br>
+      Для: <span class="ph">{{КЛИЕНТ}}</span><br>
+      Объект: <span class="ph">{{ГОРОД / УЧАСТОК}}</span>
+    </div>
+  </div>
+
+  <h1>Навес под ключ <span class="ph">{{КОНФИГУРАЦИЯ}}</span></h1>
+  <p class="lead">Проект, производство и монтаж металлического навеса премиум-класса с расчётом под снеговую зону вашего региона. Изготовление — собственный завод полного цикла.</p>
+
+  <h2>Почему FORTE STEEL</h2>
+  <div class="grid">
+    <div class="card"><b>Завод, а не бригада</b>Собственное производство полного цикла с 2012 года: проектирование, металл, сварка, покраска.</div>
+    <div class="card"><b>Расчёт под снег по СП 20.13330</b>Каркас проектируется под снеговую нагрузку именно вашего региона — навес не сложится зимой.</div>
+    <div class="card"><b>Своя порошковая покраска</b>Заводская окраска в любой цвет RAL (стандарт — графит RAL 7024). Не выгорает, не ржавеет на швах.</div>
+    <div class="card"><b>Один договор под ключ</b>От замера до сдачи — один ответственный. Монтаж своей бригадой. Гарантия 5 лет.</div>
+  </div>
+
+  <h2>Состав и характеристики</h2>
+  <table>
+    <tr><th>Параметр</th><th>Значение</th></tr>
+    <tr><td>Конфигурация</td><td><span class="ph">{{напр. Навес 2 авто + хозблок}}</span></td></tr>
+    <tr><td>Габариты навеса</td><td><span class="ph">{{6,5 × 9,5 м, высота 2,7 м}}</span></td></tr>
+    <tr><td>Хозблок</td><td><span class="ph">{{2,5 × 6 м}}</span></td></tr>
+    <tr><td>Каркас</td><td><span class="ph">{{профильная труба, сечение / толщина}}</span></td></tr>
+    <tr><td>Кровля</td><td><span class="ph">{{профлист с полимером / фальц / алюмокомпозит}}</span></td></tr>
+    <tr><td>Покрытие</td><td>Порошковая покраска, RAL <span class="ph">{{7024}}</span></td></tr>
+    <tr><td>Снеговой расчёт</td><td><span class="ph">{{150 кг/м² (Мск/СПб) / 200 кг/м² (Урал)}}</span></td></tr>
+  </table>
+
+  <h2>Стоимость</h2>
+  <table>
+    <tr><th>Позиция</th><th class="r">Стоимость, ₽</th></tr>
+    <tr><td>Проектирование и расчёт каркаса</td><td class="r"><span class="ph">{{вкл.}}</span></td></tr>
+    <tr><td>Изготовление металлоконструкции (завод)</td><td class="r"><span class="ph">{{...}}</span></td></tr>
+    <tr><td>Кровля и зашивка</td><td class="r"><span class="ph">{{...}}</span></td></tr>
+    <tr><td>Порошковая покраска</td><td class="r"><span class="ph">{{...}}</span></td></tr>
+    <tr><td>Доставка и монтаж</td><td class="r"><span class="ph">{{...}}</span></td></tr>
+  </table>
+  <div class="total"><span class="lab">Стоимость под ключ</span><span class="val"><span class="ph">{{1 490 000}}</span> ₽</span></div>
+  <p class="muted" style="font-size:13px">Условия оплаты: аванс 70% — старт производства, 30% — после монтажа и приёмки. Срок изготовления — <span class="ph">{{14–30}}</span> дней. КП действительно 14 дней.</p>
+
+  <h2>Как мы работаем</h2>
+  <ol class="steps">
+    <li><b>Заявка и замер.</b> Выезд на участок, замер, обсуждение конфигурации.</li>
+    <li><b>Проект и смета.</b> Чертёж, 3D-визуализация, расчёт под снеговую зону — за 4 дня.</li>
+    <li><b>Договор · аванс 70%.</b> Фиксируем цену, сроки, спецификацию.</li>
+    <li><b>Производство.</b> Изготовление на заводе, порошковая покраска.</li>
+    <li><b>Доставка и монтаж.</b> Своя бригада, монтаж на готовое основание.</li>
+    <li><b>Сдача · 30% · гарантия 5 лет.</b></li>
+  </ol>
+
+  <div class="foot">
+    <div>ИП Штро Г.Г.<br>Производство: ООО «Промэнерго», Екатеринбург</div>
+    <div style="text-align:right">+7 912 696-74-55 · Telegram · WhatsApp<br>shtrosergey08@gmail.com</div>
+  </div>
+</div>
+<button class="print-btn" onclick="window.print()">⬇ Скачать PDF</button>
+</body>
+</html>
