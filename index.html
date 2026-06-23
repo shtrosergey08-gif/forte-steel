@@ -420,7 +420,7 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
     <div class="sec-head reveal">
       <span class="eyebrow">Наше производство</span>
       <h2>Завод полного цикла</h2>
-      <p>Действующее машиностроительное производство в Екатеринбурге с 2012 года. Навесы делаем целиком у себя — от резки металла до покраски и монтажа. <span class="muted">(фото цеха — добавим)</span></p>
+      <p>Действующее машиностроительное производство в Екатеринбурге с 2012 года. Навесы делаем целиком у себя — от резки металла до покраски и монтажа.</p>
     </div>
     <div class="projects">
       <div class="proj big reveal" style="background:url('assets/gen_z1.jpg') center/cover"><div class="ph"></div><div class="meta"><div class="geo">ООО «Промэнерго» · Екатеринбург</div><h4>Металлообработка с 2012 года</h4></div></div>
@@ -483,6 +483,36 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
           <div class="pay"><span class="pct">30%</span><div class="pbar"><i style="width:30%"></i></div><span class="pl">по готовности объекта</span></div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<style>
+.faq{max-width:860px;margin:0 auto}
+.faq details{border:1px solid var(--line);border-radius:14px;padding:0 24px;margin-bottom:12px;background:var(--bg-2);transition:border-color .3s}
+.faq details[open]{border-color:var(--accent)}
+.faq summary{list-style:none;cursor:pointer;padding:22px 0;font-family:'Unbounded';font-size:clamp(16px,2vw,19px);display:flex;justify-content:space-between;align-items:center;gap:18px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';font-family:'Manrope';font-size:26px;color:var(--accent);transition:transform .3s;flex:none}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 0 24px;color:var(--muted);font-size:15.5px;line-height:1.6;max-width:74ch}
+</style>
+<section id="faq">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:40px" class="reveal">
+      <span class="eyebrow">Вопросы и ответы</span>
+      <h2 style="font-size:clamp(26px,3.6vw,44px)">Что чаще всего спрашивают</h2>
+    </div>
+    <div class="faq reveal">
+      <details><summary>Сколько стоит навес под ключ?</summary><p>Навес на 2 авто — от 1 490 000 ₽, на 4 авто — от 2 360 000 ₽, навес с хозблоком — от 2 400 000 ₽. Точная цена зависит от размеров, кровли и сложности участка — мы готовим смету и 3D-визуализацию за 4 дня после замера, бесплатно.</p></details>
+      <details><summary>Почему дороже, чем у бригад с авито?</summary><p>Мы — действующий машиностроительный завод полного цикла, а не бригада. В цену входит инженерный расчёт каркаса под снеговую нагрузку вашего региона, заводская порошковая покраска и гарантия 5 лет. Дешёвый навес по «универсальному» чертежу складывается под снегом — экономия оборачивается переделкой.</p></details>
+      <details><summary>Выдержит ли навес снеговую нагрузку?</summary><p>Да. Каждый каркас рассчитываем по СП 20.13330.2016 под снеговой район именно вашего участка: Москва и Санкт-Петербург — 150 кг/м², Урал — усиленное исполнение до 200 кг/м². Конструкция держит реальный снег региона, а не «среднюю по стране».</p></details>
+      <details><summary>Делаете монтаж в моём регионе?</summary><p>Производим в Екатеринбурге, монтируем по всей России своей бригадой. Основная география — Москва и область, Санкт-Петербург и Ленобласть, Урал. Доставку и монтаж в другие регионы рассчитываем индивидуально.</p></details>
+      <details><summary>Какие сроки изготовления?</summary><p>От 14 до 30 дней на производство — зависит от конфигурации и загрузки. Точный срок фиксируем в договоре. Лучшее время заказать — зима и ранняя весна, чтобы навес стоял к началу сезона.</p></details>
+      <details><summary>Как происходит оплата?</summary><p>В два этапа: аванс 70% при подписании договора — запускаем производство, оставшиеся 30% — после монтажа и приёмки объекта. Все условия, цена и спецификация зафиксированы в договоре.</p></details>
+      <details><summary>Можно сделать навес по своему проекту?</summary><p>Да. Проектируем под ваш участок и задачу: навес для авто, с хозблоком, патио, террасу, навес у бассейна, силовой каркас. Присылайте размеры и фото участка — подготовим индивидуальное решение.</p></details>
+      <details><summary>Какая гарантия?</summary><p>5 лет на металлоконструкцию. Производство полного цикла означает, что за металл, покраску и монтаж отвечает один подрядчик по одному договору — не придётся искать, кто виноват.</p></details>
     </div>
   </div>
 </section>
@@ -649,6 +679,35 @@ addEventListener('mousemove',e=>{if(!hero)return;const x=(e.clientX/innerWidth-.
   });
   show(0);
 })();
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"LocalBusiness",
+  "name":"FORTE STEEL",
+  "description":"Производство архитектурных металлических навесов под ключ. Завод полного цикла, расчёт под снеговую нагрузку, монтаж по России.",
+  "image":"https://shtrosergey08-gif.github.io/forte-steel/assets/gen_hero.jpg",
+  "url":"https://shtrosergey08-gif.github.io/forte-steel/",
+  "telephone":"+7-912-696-74-55",
+  "priceRange":"от 1 490 000 ₽",
+  "address":{"@type":"PostalAddress","addressLocality":"Екатеринбург","streetAddress":"ул. Фронтовых Бригад, 18/8","addressCountry":"RU"},
+  "areaServed":["Москва","Московская область","Санкт-Петербург","Екатеринбург","Россия"],
+  "foundingDate":"2012"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"Сколько стоит навес под ключ?","acceptedAnswer":{"@type":"Answer","text":"Навес на 2 авто — от 1 490 000 ₽, на 4 авто — от 2 360 000 ₽, навес с хозблоком — от 2 400 000 ₽. Точная цена зависит от размеров и кровли, смету и 3D готовим за 4 дня после замера."}},
+    {"@type":"Question","name":"Выдержит ли навес снеговую нагрузку?","acceptedAnswer":{"@type":"Answer","text":"Да. Каркас рассчитываем по СП 20.13330.2016 под снеговой район участка: Москва и СПб — 150 кг/м², Урал — усиленное исполнение до 200 кг/м²."}},
+    {"@type":"Question","name":"Делаете монтаж в моём регионе?","acceptedAnswer":{"@type":"Answer","text":"Производим в Екатеринбурге, монтируем по всей России своей бригадой. Основная география — Москва и область, Санкт-Петербург, Урал."}},
+    {"@type":"Question","name":"Какие сроки изготовления?","acceptedAnswer":{"@type":"Answer","text":"От 14 до 30 дней на производство в зависимости от конфигурации. Точный срок фиксируется в договоре."}},
+    {"@type":"Question","name":"Как происходит оплата?","acceptedAnswer":{"@type":"Answer","text":"Аванс 70% при подписании договора, 30% — после монтажа и приёмки объекта."}},
+    {"@type":"Question","name":"Какая гарантия?","acceptedAnswer":{"@type":"Answer","text":"5 лет на металлоконструкцию. Производство полного цикла — один подрядчик отвечает за металл, покраску и монтаж по одному договору."}}
+  ]
+}
 </script>
 </body>
 </html>

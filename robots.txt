@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /$
+Allow: /index.html
+Disallow: /analiz.html
+Disallow: /plan_zavod.html
+Disallow: /marketing.html
+Disallow: /reels.html
+Disallow: /kp.html
+Sitemap: https://shtrosergey08-gif.github.io/forte-steel/sitemap.xml
