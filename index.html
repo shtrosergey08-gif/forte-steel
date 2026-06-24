@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>document.documentElement.className+=' js';</script>
+<link rel="preload" as="image" href="assets/gen_hero.jpg">
 <title>FORTE STEEL — архитектурные навесы под ключ | Производство по всей России</title>
 <meta name="description" content="Проектируем и производим премиальные металлические навесы под ключ. Собственный цех, расчёт снеговой нагрузки по СП 20.13330, порошковая покраска в любой RAL, монтаж по всей России. Гарантия 5 лет.">
 <meta name="keywords" content="навес под ключ, навес для авто, металлический навес, навес с хозблоком, архитектурный навес, навес premium, навес Москва, навес СПб, навес Екатеринбург">
@@ -26,17 +28,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#1a1c1f;          /* графит-фон */
-  --bg-2:#212429;
-  --surface:#26292e;
+  --bg:#16181b;          /* графит-фон, глубже */
+  --bg-2:#1c1f23;
+  --surface:#24272c;
   --ral7024:#474a51;     /* RAL 7024 графит */
   --line:#33373d;
-  --text:#ecedef;
-  --muted:#9a9ea6;
+  --line-soft:rgba(255,255,255,.07);
+  --text:#f0f1f3;
+  --muted:#b4b8c1;       /* было #9a9ea6 — поднят контраст до WCAG AA */
+  --muted-2:#878b94;     /* для совсем второстепенного */
   --accent:#c2a36b;      /* бронза */
   --accent-2:#d8bd8a;
+  --light:#e9e7e1;       /* инверсная светлая секция */
+  --ink:#1a1c1f;
   --radius:18px;
   --max:1280px;
+  --sec:clamp(84px,11vh,150px);   /* вертикальный ритм секций */
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -46,8 +53,12 @@ body{
   line-height:1.55;-webkit-font-smoothing:antialiased;
   overflow-x:hidden;
 }
-h1,h2,h3,.display{font-family:'Unbounded',sans-serif;font-weight:800;line-height:1.05;letter-spacing:-.01em}
+h1,h2,h3,.display{font-family:'Unbounded',sans-serif;font-weight:800;line-height:1.02;letter-spacing:-.03em}
 a{color:inherit;text-decoration:none}
+::selection{background:var(--accent);color:var(--ink)}
+#progress{position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));transform:scaleX(0);transform-origin:0 50%;z-index:200;will-change:transform}
+.btn:focus-visible,.quiz-opt:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}.reveal{opacity:1!important;transform:none!important}}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
 .accent{color:var(--accent)}
 .muted{color:var(--muted)}
@@ -56,8 +67,8 @@ a{color:inherit;text-decoration:none}
   padding:16px 30px;border-radius:100px;font-weight:600;font-size:15px;
   cursor:pointer;border:none;transition:.3s;font-family:'Manrope';
 }
-.btn-accent{background:var(--accent);color:#1a1c1f}
-.btn-accent:hover{background:var(--accent-2);transform:translateY(-2px)}
+.btn-accent{background:var(--accent);color:#1a1c1f;box-shadow:0 0 0 0 rgba(194,163,107,0);transition:.3s,box-shadow .5s}
+.btn-accent:hover{background:var(--accent-2);transform:translateY(-2px);box-shadow:0 10px 40px -8px rgba(194,163,107,.55)}
 .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
 .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
 .eyebrow{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:18px;display:inline-block}
@@ -110,8 +121,9 @@ body::after{
   overflow:hidden;padding:22px 0;white-space:nowrap}
 .marquee .track{display:inline-flex;gap:48px;animation:scroll 28s linear infinite;will-change:transform}
 .marquee span{font-family:'Unbounded';font-weight:600;font-size:clamp(18px,2.4vw,30px);
-  color:#3b3f45;letter-spacing:.02em;text-transform:uppercase}
-.marquee span b{color:var(--accent);font-weight:600}
+  color:#4a4f58;letter-spacing:.02em;text-transform:uppercase}
+.marquee span b{color:var(--accent);font-weight:600;animation:bronze-pulse 3.2s ease-in-out infinite}
+@keyframes bronze-pulse{0%,100%{opacity:.65}50%{opacity:1;text-shadow:0 0 14px rgba(194,163,107,.45)}}
 @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 /* CARPORT SVG */
 .np-svg{width:100%;height:100%;display:block}
@@ -129,10 +141,11 @@ body::after{
 .config-card:hover{border-color:var(--accent);transform:translateY(-4px)}
 .config-vis{height:210px;background:#191c1f center/cover no-repeat;overflow:hidden}
 .hero-photo{position:absolute;inset:0;background:#16181b center/cover no-repeat}
-.config-body{padding:24px 26px;display:flex;justify-content:space-between;align-items:flex-end;gap:14px}
-.config-body h4{font-family:'Unbounded';font-size:18px;margin-bottom:8px}
-.config-body .dim{color:var(--muted);font-size:13px}
-.config-price{font-family:'Unbounded';font-weight:700;color:var(--accent);font-size:17px;white-space:nowrap}
+.config-body{padding:28px 30px;display:flex;flex-direction:column;gap:6px}
+.config-body h4{font-family:'Unbounded';font-size:19px;margin-bottom:4px}
+.config-body .dim{color:var(--muted);font-size:13.5px;margin-bottom:14px}
+.price-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);opacity:.65;margin-bottom:2px}
+.config-price{font-family:'Unbounded';font-weight:800;color:var(--accent);font-size:clamp(24px,2.4vw,30px);line-height:1;letter-spacing:-.02em;white-space:nowrap;font-variant-numeric:tabular-nums}
 @media(max-width:760px){.config-grid{grid-template-columns:1fr}}
 .video-badge{
   position:relative;z-index:1;border:1px dashed #5a5f68;color:#7d828b;
@@ -140,18 +153,22 @@ body::after{
   text-transform:uppercase;background:rgba(0,0,0,.2)
 }
 .hero-content{position:relative;z-index:2;width:100%}
-.hero h1{font-size:clamp(38px,6.4vw,86px);max-width:14ch;margin-bottom:26px;text-transform:uppercase}
-.hero p{font-size:clamp(16px,1.6vw,20px);color:var(--muted);max-width:52ch;margin-bottom:38px}
+.hero h1{font-size:clamp(44px,7.4vw,98px);max-width:15ch;margin-bottom:26px;text-transform:uppercase;letter-spacing:-.045em;line-height:.95}
+.hero p{font-size:clamp(16px,1.5vw,20px);color:#d7d9dd;max-width:54ch;margin-bottom:40px;line-height:1.6}
 .hero-cta{display:flex;gap:16px;flex-wrap:wrap}
-.hero-stats{display:flex;gap:50px;margin-top:64px;flex-wrap:wrap}
-.stat .n{font-family:'Unbounded';font-size:clamp(28px,3vw,42px);font-weight:800}
-.stat .l{font-size:13px;color:var(--muted);letter-spacing:.04em;margin-top:4px}
+.hero-stats{display:flex;gap:clamp(28px,5vw,64px);margin-top:72px;padding-top:38px;border-top:1px solid rgba(255,255,255,.12);flex-wrap:wrap}
+.stat .n{font-family:'Unbounded';font-size:clamp(26px,2.9vw,40px);font-weight:800;letter-spacing:-.02em}
+.stat:first-child .n{font-size:clamp(30px,3.7vw,52px);color:var(--accent)}
+.stat .l{font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:7px}
 
 /* SECTIONS */
-section{padding:120px 0;position:relative}
-.sec-head{max-width:760px;margin-bottom:60px}
-.sec-head h2{font-size:clamp(30px,4.2vw,56px);margin-bottom:20px}
-.sec-head p{color:var(--muted);font-size:18px}
+section{padding:var(--sec) 0;position:relative}
+.sec-head{max-width:780px;margin-bottom:64px}
+.sec-head .eyebrow{margin-bottom:14px}
+.sec-head h2{font-size:clamp(32px,4.6vw,60px);margin-bottom:20px;letter-spacing:-.035em}
+.sec-head p{color:var(--muted);font-size:clamp(16px,1.5vw,18px);max-width:62ch;line-height:1.65}
+.trust-note{margin-top:26px;border-left:2px solid var(--accent);padding:4px 0 4px 18px;max-width:64ch}
+.trust-note span{color:var(--muted-2);font-size:14px;letter-spacing:.01em;line-height:1.6}
 
 /* TYPES grid */
 .types{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
@@ -164,10 +181,17 @@ section{padding:120px 0;position:relative}
 .type-card:hover{transform:translateY(-6px);border-color:var(--accent)}
 .type-card .ph{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,22,25,.30) 0%,rgba(20,22,25,.55) 50%,rgba(20,22,25,.93) 100%);transition:.4s}
 .type-card:hover .ph{background:linear-gradient(180deg,rgba(20,22,25,.18) 0%,rgba(20,22,25,.48) 50%,rgba(20,22,25,.9) 100%)}
-.type-card .ico{position:relative;z-index:2;font-size:30px;margin-bottom:auto}
+.type-card .ico{position:relative;z-index:2;font-size:30px;color:var(--accent);margin-bottom:auto}
 .type-card h3{position:relative;z-index:2;font-size:22px;margin-bottom:10px}
-.type-card p{position:relative;z-index:2;color:var(--muted);font-size:14px}
+.type-card p{position:relative;z-index:2;color:var(--muted);font-size:14.5px;line-height:1.55}
 .type-card .from{position:relative;z-index:2;margin-top:14px;color:var(--accent);font-weight:700;font-size:14px}
+/* CTA-карточка на 2 колонки */
+.type-cta{grid-column:span 2;flex-direction:row;align-items:center;gap:36px;padding:44px 50px;min-height:auto;
+  background:linear-gradient(140deg,#23262b,#191c1f);border-color:rgba(194,163,107,.25)}
+.type-cta .ico{font-size:46px;margin:0;flex:none;opacity:.5}
+.type-cta-body h3{font-size:28px}
+.type-cta-body p{max-width:48ch}
+@media(max-width:760px){.type-cta{grid-column:span 1;flex-direction:column;align-items:flex-start;gap:18px;padding:32px}}
 
 /* PROJECTS */
 .projects{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;grid-auto-rows:240px}
@@ -185,20 +209,24 @@ section{padding:120px 0;position:relative}
 
 /* PROCESS */
 .process{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;counter-reset:step}
-.step{padding:34px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);transition:.35s}
-.step:hover{border-color:var(--accent);background:#2b2f35}
-.step::before{counter-increment:step;content:"0" counter(step);font-family:'Unbounded';font-size:46px;
-  font-weight:800;color:var(--ral7024);display:block;margin-bottom:18px}
-.step h3{font-size:19px;margin-bottom:10px}
-.step p{color:var(--muted);font-size:15px}
+.step{position:relative;padding:36px 34px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);transition:.35s;overflow:hidden}
+.step:hover{border-color:var(--accent);background:#2b2f35;transform:translateY(-4px)}
+.step::before{counter-increment:step;content:"0" counter(step);position:absolute;top:14px;right:22px;
+  font-family:'Unbounded';font-size:76px;font-weight:800;color:rgba(194,163,107,.10);line-height:1;user-select:none;pointer-events:none}
+.step h3{font-size:19px;margin-bottom:10px;position:relative}
+.step p{color:var(--muted);font-size:15px;line-height:1.6;position:relative}
 
 /* FEATURES split */
 .split{display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:center}
 .feat-list{display:flex;flex-direction:column;gap:4px}
-.feat{display:flex;gap:20px;padding:22px 0;border-bottom:1px solid var(--line)}
-.feat .fi{font-size:24px;color:var(--accent);flex-shrink:0}
-.feat h4{font-size:17px;margin-bottom:4px}
-.feat p{color:var(--muted);font-size:14px}
+.feat{display:flex;gap:22px;padding:26px 0;border-bottom:1px solid var(--line)}
+.feat:first-child{padding-top:0}
+.feat .fi{width:46px;height:46px;flex:none;border:1px solid rgba(194,163,107,.28);border-radius:11px;
+  display:flex;align-items:center;justify-content:center;background:rgba(194,163,107,.06);transition:.35s}
+.feat:hover .fi{background:rgba(194,163,107,.14);border-color:var(--accent)}
+.feat .fi svg{width:22px;height:22px}
+.feat h4{font-size:17px;margin-bottom:5px}
+.feat p{color:var(--muted);font-size:14.5px;line-height:1.6}
 .split-visual{border-radius:var(--radius);min-height:480px;border:1px solid var(--line);
   background:radial-gradient(120% 100% at 30% 20%,#3a3f47,#1d2024);position:relative;overflow:hidden;
   display:flex;align-items:center;justify-content:center}
@@ -257,7 +285,7 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
   padding-top:30px;border-top:1px solid var(--line);color:#6e727a;font-size:13px;flex-wrap:wrap;gap:14px}
 
 /* reveal */
-.reveal{opacity:0;transform:translateY(34px);transition:.8s cubic-bezier(.16,1,.3,1)}
+.js .reveal{opacity:0;transform:translateY(34px);transition:.8s cubic-bezier(.16,1,.3,1)}
 .reveal.in{opacity:1;transform:none}
 
 /* cursor glow on cards */
@@ -276,22 +304,36 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
 .spin3d{display:inline-block;color:var(--accent);animation:spin3d 4.5s linear infinite}
 @keyframes spin3d{0%{transform:perspective(220px) rotateY(0deg)}100%{transform:perspective(220px) rotateY(360deg)}}
 
+.nav-overlay{position:fixed;inset:0;background:rgba(18,20,23,.7);backdrop-filter:blur(5px);z-index:99;opacity:0;visibility:hidden;transition:.3s}
+.nav-overlay.show{opacity:1;visibility:visible}
 @media(max-width:980px){
-  .nav-links{display:none}.burger{display:flex}
+  .nav-links{position:fixed;top:0;right:0;width:min(82vw,320px);height:100dvh;flex-direction:column;gap:8px;
+    background:#1b1e22;border-left:1px solid var(--line);padding:90px 32px 40px;z-index:100;
+    transform:translateX(100%);transition:transform .4s cubic-bezier(.16,1,.3,1);display:flex}
+  .nav-links.open{transform:translateX(0)}
+  .nav-links a{font-size:18px;color:var(--text);padding:10px 0;border-bottom:1px solid var(--line-soft)}
+  .burger{display:flex;z-index:101}
+  .burger.x span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger.x span:nth-child(2){opacity:0}
+  .burger.x span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
   .types,.process{grid-template-columns:1fr 1fr}
   .split,.band,.foot-grid{grid-template-columns:1fr;gap:34px}
   .projects{grid-auto-rows:200px}
   .proj.big,.proj.tall,.proj.wide,.proj.s{grid-column:span 12;grid-row:span 1}
   .cta-final,.band{padding:40px}
+  .nav-phone{display:none}
 }
 @media(max-width:600px){
   .types,.process{grid-template-columns:1fr}
-  .hero-stats{gap:30px}.pay .pl{display:none}
-  section{padding:80px 0}
+  .hero-stats{gap:26px 30px}.pay .pl{display:none}
+  .hero-cta{flex-direction:column;align-items:stretch}
+  .hero-cta .btn{justify-content:center;width:100%}
 }
 </style>
 </head>
 <body>
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+<div id="progress" aria-hidden="true"></div>
 
 <!-- SVG symbols -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -319,7 +361,7 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
     <div class="nav-right">
       <a href="tel:+79126967455" class="nav-phone">+7 912 696-74-55</a>
       <a href="#contact" class="btn btn-accent" style="padding:12px 24px">Рассчитать проект</a>
-      <button class="burger" onclick="document.querySelector('.nav-links').style.display='flex'"><span></span><span></span><span></span></button>
+      <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
 </header>
@@ -331,18 +373,18 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
     <div class="hero-photo" style="background-image:url('assets/gen_hero.jpg')"></div>
   </div>
   <div class="wrap hero-content">
-    <span class="eyebrow reveal">Собственное производство · Монтаж по всей России</span>
-    <h1 class="reveal">Архитектура<br>пространства<br><span class="accent">из стали</span></h1>
-    <p class="reveal">Проектируем и производим премиальные металлические навесы под ключ. Индивидуальный проект, расчёт снеговой нагрузки под ваш регион, порошковая покраска в любой цвет RAL.</p>
+    <span class="eyebrow reveal">Завод полного цикла · Екатеринбург · с 2012</span>
+    <h1 class="reveal">Навес,<br>который<br><span class="accent">переживёт дом</span></h1>
+    <p class="reveal">Проектируем и производим металлические навесы под ключ. Каркас рассчитан под снеговую зону вашего региона по СП 20.13330. Своя порошковая покраска в любой RAL. Один договор — от чертежа до монтажа.</p>
     <div class="hero-cta reveal">
-      <a href="#contact" class="btn btn-accent">Получить смету за 4 дня →</a>
-      <a href="#projects" class="btn btn-ghost">Смотреть проекты</a>
+      <a href="#contact" class="btn btn-accent">Смета и 3D за 4 дня →</a>
+      <a href="#configs" class="btn btn-ghost">Смотреть конфигурации</a>
     </div>
     <div class="hero-stats reveal">
-      <div class="stat"><div class="n">от 1,49<span class="accent"> млн ₽</span></div><div class="l">проект под ключ</div></div>
-      <div class="stat"><div class="n">14–30 <span class="muted" style="font-size:.5em">дней</span></div><div class="l">срок изготовления</div></div>
-      <div class="stat"><div class="n">5 лет</div><div class="l">гарантия</div></div>
-      <div class="stat"><div class="n">с 2012</div><div class="l">собственный завод, Екатеринбург</div></div>
+      <div class="stat"><div class="n">от 1,49<span style="font-size:.5em"> млн ₽</span></div><div class="l">проект под ключ</div></div>
+      <div class="stat"><div class="n">14–30 <span class="muted" style="font-size:.45em">дней</span></div><div class="l">срок изготовления</div></div>
+      <div class="stat"><div class="n">5 лет</div><div class="l">гарантия на конструкцию</div></div>
+      <div class="stat"><div class="n">с 2012</div><div class="l">собственный завод</div></div>
     </div>
   </div>
   <div class="scroll-cue">Листайте<i></i></div>
@@ -351,8 +393,8 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
 <!-- MARQUEE -->
 <div class="marquee" aria-hidden="true">
   <div class="track">
-    <span>Навесы для авто</span><span><b>✦</b></span><span>Козырьки</span><span><b>✦</b></span><span>Патио и террасы</span><span><b>✦</b></span><span>Силовые каркасы</span><span><b>✦</b></span><span>Порошковая покраска RAL</span><span><b>✦</b></span><span>Монтаж по всей России</span><span><b>✦</b></span>
-    <span>Навесы для авто</span><span><b>✦</b></span><span>Козырьки</span><span><b>✦</b></span><span>Патио и террасы</span><span><b>✦</b></span><span>Силовые каркасы</span><span><b>✦</b></span><span>Порошковая покраска RAL</span><span><b>✦</b></span><span>Монтаж по всей России</span><span><b>✦</b></span>
+    <span>Расчёт по СП 20.13330</span><span><b>✦</b></span><span>Своя порошковая покраска RAL</span><span><b>✦</b></span><span>Один договор под ключ</span><span><b>✦</b></span><span>Гарантия 5 лет</span><span><b>✦</b></span><span>Завод полного цикла</span><span><b>✦</b></span><span>Монтаж по всей России</span><span><b>✦</b></span>
+    <span>Расчёт по СП 20.13330</span><span><b>✦</b></span><span>Своя порошковая покраска RAL</span><span><b>✦</b></span><span>Один договор под ключ</span><span><b>✦</b></span><span>Гарантия 5 лет</span><span><b>✦</b></span><span>Завод полного цикла</span><span><b>✦</b></span><span>Монтаж по всей России</span><span><b>✦</b></span>
   </div>
 </div>
 
@@ -361,19 +403,18 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">Что мы делаем</span>
-      <h2>Навесы любой сложности — под ваш проект</h2>
-      <p>Никаких типовых решений. Каждая конструкция проектируется индивидуально и рассчитывается на снеговую и ветровую нагрузку вашего региона.</p>
+      <h2>Шесть задач.<br>Один инженерный подход.</h2>
+      <p>Типовых решений нет. Каждый каркас проектируется под участок и считается под снеговую и ветровую нагрузку региона.</p>
     </div>
     <div class="types">
-      <div class="type-card reveal" style="background:url('assets/gen_c1.jpg') center/cover"><div class="ph"></div><h3>Навесы для авто</h3><p>1 авто — 6,5×6,5 м, 2 авто — 6,5×9,5 м, высота 2,7 м. Оцинкованная балочная система, кровля профлист, алюмокомпозит по периметру.</p><div class="from">от 1 490 000 ₽</div></div>
-      <div class="type-card reveal" style="background:url('assets/gen_t_kozyrek.jpg') center/cover"><div class="ph"></div><h3>Козырьки над входом</h3><p>Над крыльцом, террасой, входной группой. Точная геометрия.</p><div class="from">индивидуально</div></div>
-      <div class="type-card reveal" style="background:url('assets/gen_t_patio.jpg') center/cover"><div class="ph"></div><h3>Патио и террасы</h3><p>Зона отдыха, барбекю, беседки. Под любой ландшафт участка.</p><div class="from">индивидуально</div></div>
-      <div class="type-card reveal" style="background:url('assets/gen_t_pool.jpg') center/cover"><div class="ph"></div><h3>Навесы для бассейна</h3><p>Защита зоны бассейна, премиальные конструкции.</p><div class="from">индивидуально</div></div>
-      <div class="type-card reveal" style="background:url('assets/gen_t_frame.jpg') center/cover"><div class="ph"></div><h3>Силовые каркасы</h3><p>Несущие металлоконструкции, гаражи, навесные системы.</p><div class="from">по проекту</div></div>
-      <div class="type-card reveal" style="background:url('assets/gen_c3.jpg') center/cover"><div class="ph"></div><h3>Навесы с хозблоком</h3><p>Навес и хозблок/бытовка одной конструкцией — хранение, подсобка, зона у дома.</p><div class="from">по проекту</div></div>
-      <div class="type-card reveal" style="background:linear-gradient(160deg,rgba(22,24,27,.82),rgba(22,24,27,.9)),url('assets/q1.jpg') center/cover;align-items:center;justify-content:center;text-align:center">
-        <div class="ico spin3d" style="margin:0 auto 14px">✦</div><h3 style="text-align:center">Свой проект?</h3><p>Пришлите фото участка — сделаем <b style="color:var(--accent)">3D-визуализацию</b> и смету за 4 дня.</p>
-        <a href="#contact" class="from" style="text-decoration:underline">Обсудить →</a>
+      <div class="type-card reveal" style="background:url('assets/gen_c1.jpg') center/cover"><div class="ph"></div><h3>Навесы для авто</h3><p>Главная конструкция. 1 или 2 машины, высота 2,7 м. Балочная система, кровля профлист, чистый периметр из алюмокомпозита.</p><div class="from">от 1 490 000 ₽</div></div>
+      <div class="type-card reveal" style="background:url('assets/gen_t_kozyrek.jpg') center/cover"><div class="ph"></div><h3>Козырьки над входом</h3><p>Точная геометрия над крыльцом и входной группой. Деталь, по которой считывают весь дом.</p><div class="from">индивидуально</div></div>
+      <div class="type-card reveal" style="background:url('assets/gen_t_patio.jpg') center/cover"><div class="ph"></div><h3>Патио и террасы</h3><p>Зона отдыха, барбекю, летняя гостиная под открытым небом. Реечный потолок, скрытый LED-контур.</p><div class="from">индивидуально</div></div>
+      <div class="type-card reveal" style="background:url('assets/gen_t_pool.jpg') center/cover"><div class="ph"></div><h3>Навесы для бассейна</h3><p>Защита воды и зоны отдыха. Пролёты под ландшафт, без визуального шума.</p><div class="from">индивидуально</div></div>
+      <div class="type-card reveal" style="background:url('assets/gen_t_frame.jpg') center/cover"><div class="ph"></div><h3>Силовые каркасы</h3><p>Несущие металлоконструкции и гаражные системы. Расчёт под нагрузку — там, где ошибка недопустима.</p><div class="from">по проекту</div></div>
+      <div class="type-card reveal" style="background:url('assets/gen_c3.jpg') center/cover"><div class="ph"></div><h3>Навесы с хозблоком</h3><p>Навес и хозблок в одном силуэте. Хранение, техника, подсобка — единой конструкцией, единым проектом.</p><div class="from">по проекту</div></div>
+      <div class="type-card type-cta reveal" style="background:linear-gradient(140deg,#23262b,#191c1f)">
+        <div class="ico">✦</div><div class="type-cta-body"><h3>Свой проект?</h3><p>Пришлите фото участка — вернём <b style="color:var(--accent)">3D-визуализацию</b> и смету за 4 дня.</p><a href="#contact" class="from" style="text-decoration:underline;margin-top:6px;display:inline-block">Обсудить проект →</a></div>
       </div>
     </div>
   </div>
@@ -384,33 +425,33 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">Конфигурации и цены</span>
-      <h2>Популярные решения</h2>
-      <p>Типовые конфигурации под ключ — материал, изготовление, доставка и монтаж. Любой размер и цвет RAL — индивидуально.</p>
+      <h2>Готовые конфигурации.<br>Цена под ключ.</h2>
+      <p>В стоимость входит всё: инженерный расчёт, металл, заводская покраска, доставка и монтаж. «От» — это нижняя граница, а не приманка. Финальная цифра фиксируется в договоре после расчёта под ваш участок.</p>
     </div>
     <div class="config-grid">
 
       <div class="config-card reveal">
         <div class="config-vis" style="background-image:url('assets/gen_c1.jpg')"></div>
-        <div class="config-body"><div><h4>Открытый навес, 2 авто</h4><div class="dim">7 × 6 м · высота 2,7 м</div></div><div class="config-price">от 1 490 000 ₽</div></div>
+        <div class="config-body"><h4>Открытый навес, 2 авто</h4><div class="dim">7 × 6 м · высота 2,7 м</div><div class="price-label">Стоимость под ключ</div><div class="config-price">от 1 490 000 ₽</div></div>
       </div>
 
       <div class="config-card reveal">
         <div class="config-vis" style="background-image:url('assets/gen_c2.jpg')"></div>
-        <div class="config-body"><div><h4>Навес для 4 авто</h4><div class="dim">6,5 × 13 м · высота 2,7 м</div></div><div class="config-price">от 2 360 000 ₽</div></div>
+        <div class="config-body"><h4>Навес для 4 авто</h4><div class="dim">6,5 × 13 м · высота 2,7 м</div><div class="price-label">Стоимость под ключ</div><div class="config-price">от 2 360 000 ₽</div></div>
       </div>
 
       <div class="config-card reveal">
         <div class="config-vis" style="background-image:url('assets/gen_c3.jpg')"></div>
-        <div class="config-body"><div><h4>1 авто + хозблок</h4><div class="dim">навес 6,5 × 6,5 м · хозблок 3 × 6 м</div></div><div class="config-price">от 2 400 000 ₽</div></div>
+        <div class="config-body"><h4>Навес 1 авто + хозблок</h4><div class="dim">навес 6,5 × 6,5 м · хозблок 3 × 6 м</div><div class="price-label">Стоимость под ключ</div><div class="config-price">от 2 400 000 ₽</div></div>
       </div>
 
       <div class="config-card reveal">
         <div class="config-vis" style="background-image:url('assets/gen_c4.jpg')"></div>
-        <div class="config-body"><div><h4>2 авто + хозблок</h4><div class="dim">навес 6,5 × 9,5 м · хозблок 2,5 × 6 м</div></div><div class="config-price">от 2 780 000 ₽</div></div>
+        <div class="config-body"><h4>Навес 2 авто + хозблок</h4><div class="dim">навес 6,5 × 9,5 м · хозблок 2,5 × 6 м</div><div class="price-label">Стоимость под ключ</div><div class="config-price">от 2 780 000 ₽</div></div>
       </div>
 
     </div>
-    <p class="muted" style="font-size:13px;margin-top:22px">Указаны ориентировочные цены под ключ. Точная стоимость — после расчёта проекта под ваш участок и снеговую нагрузку региона.</p>
+    <p class="muted" style="font-size:13px;margin-top:22px">Цена под ключ, без скрытых смет. Точная стоимость — после расчёта каркаса под размеры участка и снеговую зону региона.</p>
   </div>
 </section>
 
@@ -419,13 +460,14 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">Наше производство</span>
-      <h2>Завод полного цикла</h2>
-      <p>Действующее машиностроительное производство в Екатеринбурге с 2012 года. Навесы делаем целиком у себя — от резки металла до покраски и монтажа.</p>
+      <h2>14 лет металла.<br>Теперь — навесы.</h2>
+      <p>FORTE STEEL — направление действующего машиностроительного завода ООО «Промэнерго», Екатеринбург. С 2012 года режем, точим, фрезеруем, варим и красим металл для промышленности. Навес для вашего дома проходит тот же контроль, что и заводская оснастка. Весь цикл — под одной крышей: металл не уходит на сторону, покраска не отдаётся «знакомым», монтаж ведут наши сварщики.</p>
+      <div class="trust-note"><span>Действующее производство с 2012 года. Металлические навесы — новое направление на базе завода полного цикла. Мы не обещаем «сотни объектов» — мы показываем завод, который их сделает.</span></div>
     </div>
     <div class="projects">
       <div class="proj big reveal" style="background:url('assets/gen_z1.jpg') center/cover"><div class="ph"></div><div class="meta"><div class="geo">ООО «Промэнерго» · Екатеринбург</div><h4>Металлообработка с 2012 года</h4></div></div>
       <div class="proj tall reveal" style="background:url('assets/gen_z2.jpg') center/cover"><div class="ph"></div><div class="meta"><div class="geo">Цех</div><h4>Токарные и фрезерные работы</h4></div></div>
-      <div class="proj wide reveal" style="background:url('assets/gen_z3.jpg') center/cover"><div class="ph"></div><div class="meta"><div class="geo">Цех</div><h4>Резка и обработка металла</h4></div></div>
+      <div class="proj wide reveal" style="background:url('assets/gen_z3.jpg') center/cover"><div class="ph"></div><div class="meta"><div class="geo">Цех</div><h4>Лазерная резка и обработка</h4></div></div>
       <div class="proj s reveal" style="background:url('assets/gen_z4.jpg') center/cover"><div class="ph"></div><div class="meta"><div class="geo">Цех</div><h4>Сварка и сборка каркасов</h4></div></div>
       <div class="proj s reveal" style="background:url('assets/gen_z5.jpg') center/cover"><div class="ph"></div><div class="meta"><div class="geo">Цех</div><h4>Порошковая покраска RAL</h4></div></div>
     </div>
@@ -437,16 +479,16 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">От проекта до объекта</span>
-      <h2>Как мы работаем</h2>
-      <p>Прозрачный процесс от первого замера до сдачи объекта и гарантийной поддержки.</p>
+      <h2>От замера до объекта</h2>
+      <p>Шесть шагов. Один подрядчик. Ноль переадресаций.</p>
     </div>
     <div class="process">
-      <div class="step reveal"><h3>Заявка и замер</h3><p>Выезжаем на объект или работаем по вашим размерам и фото участка.</p></div>
-      <div class="step reveal"><h3>Проект и смета</h3><p>Чертёж, 3D-визуализация и точная смета за 4 дня. Расчёт снеговой нагрузки.</p></div>
-      <div class="step reveal"><h3>Договор · 70% аванс</h3><p>Фиксируем цену, сроки и состав работ. Старт производства.</p></div>
-      <div class="step reveal"><h3>Производство</h3><p>Изготовление в собственном цехе, порошковая покраска в выбранный RAL.</p></div>
-      <div class="step reveal"><h3>Доставка и монтаж</h3><p>Наша бригада сварщиков. Монтаж по всей России — отправляем хоть куда.</p></div>
-      <div class="step reveal"><h3>Сдача · 30% · гарантия</h3><p>Принимаете объект, остаток оплаты, гарантия 5 лет.</p></div>
+      <div class="step reveal"><h3>Замер и задача</h3><p>Выезжаем на участок или работаем по вашим размерам и фото. Фиксируем геометрию, грунт, привязку к дому.</p></div>
+      <div class="step reveal"><h3>Проект и смета за 4 дня</h3><p>Чертёж, 3D-визуализация и точная смета. Каркас уже рассчитан под снеговую зону вашего региона.</p></div>
+      <div class="step reveal"><h3>Договор · аванс 70%</h3><p>Цена, сроки и состав работ зафиксированы. Запускаем производство.</p></div>
+      <div class="step reveal"><h3>Производство</h3><p>Изготовление в собственном цехе. Порошковая покраска в выбранный RAL — заводская, не «в гараже».</p></div>
+      <div class="step reveal"><h3>Доставка и монтаж</h3><p>Везём и собираем своей бригадой сварщиков. Монтаж по всей России.</p></div>
+      <div class="step reveal"><h3>Сдача · 30% · гарантия 5 лет</h3><p>Принимаете объект, вносите остаток. На конструкцию — 5 лет гарантии от завода.</p></div>
     </div>
   </div>
 </section>
@@ -456,15 +498,39 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
   <div class="wrap split">
     <div class="reveal">
       <span class="eyebrow">Почему мы</span>
-      <h2 style="font-size:clamp(28px,4vw,48px);margin-bottom:30px">Производитель,<br>а не посредник</h2>
+      <h2 style="font-size:clamp(30px,4.4vw,52px);margin-bottom:14px;letter-spacing:-.035em">Производитель,<br>а не посредник</h2>
+      <p class="muted" style="font-size:16px;margin-bottom:34px;max-width:46ch">Между вами и металлом нет ни одной лишней наценки.</p>
       <div class="feat-list">
-        <div class="feat"><div class="fi">⚙</div><div><h4>Собственный завод с 2012 года</h4><p>Действующее машиностроительное производство в Екатеринбурге: токарка, фрезеровка, резка, сварка, покраска. Полный цикл без наценки посредников.</p></div></div>
-        <div class="feat"><div class="fi">❄</div><div><h4>Расчёт под снеговую зону по СП 20.13330</h4><p>Считаем каркас под реальную нагрузку вашего региона: Москва и Санкт-Петербург — 150 кг/м², Урал — усиленное исполнение 200 кг/м². Конструкция держит настоящий снег, а не «среднюю по стране».</p></div></div>
-        <div class="feat"><div class="fi">🎨</div><div><h4>Порошковая покраска в любой RAL</h4><p>Оцинкованный материал + порошковое покрытие. Любой цвет под фасад. <span class="ral-chip" style="margin-top:8px">RAL 7024 · Графит</span></p></div></div>
-        <div class="feat"><div class="fi">🚚</div><div><h4>Монтаж по всей России</h4><p>Свои сварщики, готовы отправить и смонтировать в любом регионе.</p></div></div>
+        <div class="feat"><div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="#c2a36b" stroke-width="1.5"><path d="M12 8.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7z"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1M18.7 18.7l-2.1-2.1M7.4 7.4L5.3 5.3" stroke-linecap="round"/></svg></div><div><h4>Завод полного цикла</h4><p>Действующее машиностроительное производство с 2012 года: токарка, фрезеровка, резка, сварка, покраска. Вы платите за металл и работу — не за цепочку посредников.</p></div></div>
+        <div class="feat"><div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="#c2a36b" stroke-width="1.5" stroke-linecap="round"><path d="M12 2.5v19M3.8 7.2l16.4 9.6M20.2 7.2L3.8 16.8"/><path d="M12 2.5l2.4 2.4M12 2.5L9.6 4.9M12 21.5l2.4-2.4M12 21.5l-2.4-2.4"/></svg></div><div><h4>Расчёт под ваш снег по СП 20.13330</h4><p>Считаем каркас под реальную нагрузку региона: Москва и Петербург — 150 кг/м², Урал — усиленное исполнение до 200 кг/м². Держит настоящий снег вашего участка, а не «среднюю по стране».</p></div></div>
+        <div class="feat"><div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="#c2a36b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-3 4-5 6.5-5 9a5 5 0 1010 0c0-2.5-2-5-5-9z"/></svg></div><div><h4>Своя порошковая покраска в любой RAL</h4><p>Оцинковка плюс заводское порошковое покрытие. Любой цвет под фасад дома. По умолчанию — RAL 7024 «Графит». <span class="ral-chip" style="margin-top:10px">RAL 7024 · Графит</span></p></div></div>
+        <div class="feat"><div class="fi"><svg viewBox="0 0 24 24" fill="none" stroke="#c2a36b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v8H3zM14 10h4l3 3v2h-7z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></svg></div><div><h4>Один договор. Один ответственный</h4><p>Металл, покраска, монтаж и гарантия — на одном подрядчике. Если что-то пойдёт не так, не придётся искать виноватого между заводом, бригадой и поставщиком.</p></div></div>
       </div>
     </div>
     <div class="split-visual reveal" style="background:url('assets/gen_z4.jpg') center/cover"><span class="tag">Цех Промэнерго · Екатеринбург</span></div>
+  </div>
+</section>
+
+<!-- STATS BAND (светлая инверсия + scroll-счётчики) -->
+<style>
+.stats-band{background:var(--light);color:var(--ink)}
+.stats-band .sb-head{font-family:'Unbounded';font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#8a6d3b;margin-bottom:46px;text-align:center}
+.stats-band-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px}
+.sb{border-left:2px solid var(--accent);padding-left:22px}
+.sb-n{font-family:'Unbounded';font-size:clamp(38px,5vw,70px);font-weight:800;color:var(--ink);letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.sb-n .suf{color:var(--accent);font-size:.42em;letter-spacing:0}
+.sb-l{margin-top:16px;font-size:12.5px;letter-spacing:.04em;line-height:1.45;color:#5d5a54}
+@media(max-width:760px){.stats-band-grid{grid-template-columns:1fr 1fr;gap:40px 24px}}
+</style>
+<section class="stats-band">
+  <div class="wrap">
+    <div class="sb-head reveal">Цифры, которые держат конструкцию</div>
+    <div class="stats-band-grid">
+      <div class="sb reveal"><div class="sb-n"><span class="num" data-count="2012">2012</span></div><div class="sb-l">год основания завода полного цикла</div></div>
+      <div class="sb reveal"><div class="sb-n"><span class="num" data-count="200">200</span><span class="suf"> кг/м²</span></div><div class="sb-l">расчётная снеговая нагрузка, усиленное исполнение Урал</div></div>
+      <div class="sb reveal"><div class="sb-n"><span class="num" data-count="5">5</span><span class="suf"> лет</span></div><div class="sb-l">гарантия на металлоконструкцию</div></div>
+      <div class="sb reveal"><div class="sb-n"><span class="num" data-count="4">4</span><span class="suf"> дня</span></div><div class="sb-l">смета, чертёж и 3D-визуализация</div></div>
+    </div>
   </div>
 </section>
 
@@ -492,7 +558,7 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
 .faq{max-width:860px;margin:0 auto}
 .faq details{border:1px solid var(--line);border-radius:14px;padding:0 24px;margin-bottom:12px;background:var(--bg-2);transition:border-color .3s}
 .faq details[open]{border-color:var(--accent)}
-.faq summary{list-style:none;cursor:pointer;padding:22px 0;font-family:'Unbounded';font-size:clamp(16px,2vw,19px);display:flex;justify-content:space-between;align-items:center;gap:18px}
+.faq summary{list-style:none;cursor:pointer;padding:24px 0;font-family:'Unbounded';font-size:clamp(15px,1.7vw,18px);letter-spacing:-.01em;display:flex;justify-content:space-between;align-items:center;gap:24px}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary::after{content:'+';font-family:'Manrope';font-size:26px;color:var(--accent);transition:transform .3s;flex:none}
 .faq details[open] summary::after{transform:rotate(45deg)}
@@ -502,7 +568,8 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
   <div class="wrap">
     <div style="text-align:center;margin-bottom:40px" class="reveal">
       <span class="eyebrow">Вопросы и ответы</span>
-      <h2 style="font-size:clamp(26px,3.6vw,44px)">Что чаще всего спрашивают</h2>
+      <h2 style="font-size:clamp(28px,3.8vw,48px)">Что чаще всего спрашивают</h2>
+      <p class="muted" style="font-size:16px;margin-top:10px">Коротко, по делу, без «звоните — узнаете».</p>
     </div>
     <div class="faq reveal">
       <details><summary>Сколько стоит навес под ключ?</summary><p>Навес на 2 авто — от 1 490 000 ₽, на 4 авто — от 2 360 000 ₽, навес с хозблоком — от 2 400 000 ₽. Точная цена зависит от размеров, кровли и сложности участка — мы готовим смету и 3D-визуализацию за 4 дня после замера, бесплатно.</p></details>
@@ -522,8 +589,8 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
   <div class="wrap">
     <div class="cta-final reveal">
       <span class="eyebrow">Бесплатный расчёт</span>
-      <h2>Рассчитаем ваш навес за 4 дня</h2>
-      <p>Оставьте контакты — пришлём смету, чертёж и 3D-визуализацию под ваш участок и регион.</p>
+      <h2>Узнайте цену вашего навеса за 4 дня</h2>
+      <p>Четыре коротких вопроса. В ответ — смета, чертёж и 3D-визуализация под ваш участок и снеговую зону региона. Бесплатно и без обязательств.</p>
       <div class="quiz" id="quiz">
         <div class="quiz-bar"><i id="quizBar"></i></div>
 
@@ -571,7 +638,7 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
 
         <div class="quiz-done" id="quizDone" hidden>
           <div class="big">Заявка принята ✦</div>
-          <p class="muted" style="margin-bottom:22px">Инженер подготовит смету, чертёж и 3D-визуализацию под ваш регион. Чтобы ускорить расчёт — напишите нам прямо сейчас:</p>
+          <p class="muted" style="margin-bottom:22px">Инженер уже считает ваш каркас. Смета, чертёж и 3D-визуализация — в течение 4 дней. Хотите ускорить? Напишите нам прямо сейчас — отправим расчёт первыми:</p>
           <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
             <a class="btn btn-accent" href="https://wa.me/79126967455?text=Здравствуйте!%20Оставил%20заявку%20на%20навес%20на%20сайте%20FORTE%20STEEL" target="_blank" rel="noopener">Написать в WhatsApp</a>
             <a class="btn" style="border:1px solid var(--line)" href="https://t.me/Sweet_SG" target="_blank" rel="noopener">Telegram</a>
@@ -617,13 +684,50 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
 const hd=document.getElementById('hd');
 addEventListener('scroll',()=>hd.classList.toggle('scrolled',scrollY>40));
 // reveal on scroll
-const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
-document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4*60)+'ms';io.observe(el)});
+const _rev=document.querySelectorAll('.reveal');
+if('IntersectionObserver'in window){
+  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1,rootMargin:'0px 0px -8% 0px'});
+  _rev.forEach((el,i)=>{el.style.transitionDelay=(i%4*70)+'ms';io.observe(el)});
+}else{_rev.forEach(e=>e.classList.add('in'));}
+// фейлсейф: что бы ни случилось — через 4с весь контент виден
+setTimeout(()=>document.querySelectorAll('.reveal:not(.in)').forEach(e=>{e.style.transitionDelay='0ms';e.classList.add('in')}),4000);
+// scroll-прогресс
+const _pb=document.getElementById('progress');
+if(_pb)addEventListener('scroll',()=>{const h=document.documentElement;const p=h.scrollTop/(h.scrollHeight-h.clientHeight);_pb.style.transform='scaleX('+(p||0)+')';},{passive:true});
+// счётчики цифр
+(function(){
+  const nums=document.querySelectorAll('.num[data-count]');
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function run(el){
+    const target=+el.dataset.count,dur=1500;let s=null;
+    if(reduce){el.textContent=target;return;}
+    function step(t){if(!s)s=t;const p=Math.min((t-s)/dur,1);
+      el.textContent=Math.floor((1-Math.pow(1-p,3))*target);
+      if(p<1)requestAnimationFrame(step);else el.textContent=target;}
+    requestAnimationFrame(step);
+  }
+  if('IntersectionObserver'in window){
+    const o=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){run(e.target);o.unobserve(e.target)}}),{threshold:.6});
+    nums.forEach(n=>o.observe(n));
+  }
+})();
 // cursor glow on cards
 document.querySelectorAll('.type-card,.proj,.step').forEach(c=>{
   c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();
     c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')});
 });
+// мобильное меню — drawer + overlay
+(function(){
+  const burger=document.getElementById('burger'),nav=document.querySelector('.nav-links');
+  if(!burger||!nav)return;
+  const ov=document.createElement('div');ov.className='nav-overlay';document.body.appendChild(ov);
+  function close(){nav.classList.remove('open');burger.classList.remove('x');ov.classList.remove('show');burger.setAttribute('aria-expanded','false');document.body.style.overflow='';}
+  function toggle(){const o=nav.classList.toggle('open');burger.classList.toggle('x',o);ov.classList.toggle('show',o);burger.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':'';}
+  burger.addEventListener('click',toggle);
+  ov.addEventListener('click',close);
+  nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
+  addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+})();
 // magnetic buttons
 document.querySelectorAll('.btn-accent').forEach(b=>{
   b.addEventListener('mousemove',e=>{const r=b.getBoundingClientRect();
