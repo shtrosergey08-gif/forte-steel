@@ -335,7 +335,7 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
 :root{--accent:#b7866a;--accent-2:#e6c9a8}
 /* металлический медно-бронзовый перелив (как цифры у РМК) */
 /* металлический медно-бронзовый перелив цифр (все на тёмном фоне) */
-.stat .n,.stat:first-child .n,.config-price,.pay .pct,.quiz-done .big,.sb-n .num,.sb-n .suf{
+.stat .n,.stat:first-child .n,.config-price,.pay .pct,.quiz-done .big,.sb-n .num,.sb-n .suf,.hero h1 .accent{
   background-image:linear-gradient(100deg,#b7866a 0%,#e7c8a6 15%,#f6e6d0 25%,#cf9d73 38%,#b7866a 50%,#e7c8a6 65%,#f6e6d0 75%,#cf9d73 88%,#b7866a 100%);
   background-size:200% 100%;
   -webkit-background-clip:text;background-clip:text;
@@ -417,6 +417,26 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
 .laptop-tag{position:absolute;bottom:28px;left:16px;z-index:3;font-size:12px;color:var(--accent);
   background:rgba(18,20,23,.72);padding:7px 13px;border-radius:100px;backdrop-filter:blur(5px);letter-spacing:.02em}
 @media(max-width:860px){.band-dev .laptop{margin-top:10px}}
+
+/* ====== УСИЛЕНИЕ: медный hover-меню + блик кнопок ====== */
+.hero h1 .accent{animation-duration:7s;filter:drop-shadow(0 0 26px rgba(183,134,106,.25))}
+/* подчёркивание пунктов меню + активный раздел */
+.nav-links a{position:relative}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-5px;height:2px;width:0;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .32s cubic-bezier(.2,.7,.2,1)}
+.nav-links a:hover{color:var(--accent)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-links a.active{color:var(--accent)}
+@media(max-width:980px){.nav-links a::after{display:none}}
+/* сияющий блик на медных кнопках при наведении */
+.btn-accent{position:relative;overflow:hidden;isolation:isolate}
+.btn-accent::after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;z-index:-1;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);
+  transform:skewX(-18deg);opacity:0}
+.btn-accent:hover::after{animation:btnsheen .75s ease}
+@keyframes btnsheen{0%{left:-70%;opacity:1}100%{left:130%;opacity:0}}
+/* акцент выделения текста — медь */
+::selection{background:var(--accent);color:#1a1c1f}
 </style>
 </head>
 <body>
@@ -874,6 +894,20 @@ addEventListener('mousemove',e=>{if(!hero)return;const x=(e.clientX/innerWidth-.
     bar.style.width='100%';
   });
   show(0);
+})();
+// scroll-spy: активный пункт меню
+(function(){
+  var links=[...document.querySelectorAll('.nav-links a[href^="#"]')];
+  if(!links.length||!('IntersectionObserver'in window))return;
+  var map={};
+  links.forEach(function(a){var id=a.getAttribute('href').slice(1);var s=document.getElementById(id);if(s)map[id]=a;});
+  var spy=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){
+      links.forEach(function(x){x.classList.remove('active')});
+      var a=map[e.target.id]; if(a)a.classList.add('active');
+    }});
+  },{rootMargin:'-45% 0px -50% 0px',threshold:0});
+  Object.keys(map).forEach(function(id){spy.observe(document.getElementById(id))});
 })();
 // живые часы Екатеринбурга
 (function(){
