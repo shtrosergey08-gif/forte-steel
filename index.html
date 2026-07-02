@@ -437,6 +437,24 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
 @keyframes btnsheen{0%{left:-70%;opacity:1}100%{left:130%;opacity:0}}
 /* акцент выделения текста — медь */
 ::selection{background:var(--accent);color:#1a1c1f}
+/* ГАЛЕРЕЯ ВИЗУАЛИЗАЦИЙ */
+.vis-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;grid-auto-rows:230px}
+.vis{position:relative;border-radius:var(--radius);overflow:hidden;background:#1e2125 center/cover no-repeat;
+  border:1px solid var(--line);display:flex;align-items:flex-end;isolation:isolate;
+  transition:transform .4s cubic-bezier(.2,.7,.2,1),box-shadow .4s,border-color .4s;
+  box-shadow:0 2px 4px rgba(0,0,0,.2),0 28px 46px -30px rgba(0,0,0,.85)}
+.vis::before{content:"";position:absolute;inset:0;z-index:1;transition:.4s;
+  background:linear-gradient(180deg,rgba(20,22,25,.05) 38%,rgba(20,22,25,.88) 100%)}
+.vis:hover{transform:translateY(-5px);border-color:var(--accent);
+  box-shadow:0 6px 12px rgba(0,0,0,.24),0 46px 76px -34px rgba(183,134,106,.45)}
+.vis:hover::before{background:linear-gradient(180deg,rgba(20,22,25,.02) 28%,rgba(20,22,25,.82) 100%)}
+.vis-badge{position:absolute;top:15px;left:15px;z-index:2;font-size:10.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:#1a1c1f;background:var(--accent);padding:6px 12px;border-radius:100px;font-weight:700}
+.vis figcaption{position:relative;z-index:2;padding:22px 24px;width:100%}
+.vis figcaption b{font-family:'Unbounded';font-size:19px;display:block;letter-spacing:-.01em;color:#fff}
+.vis figcaption span{color:#c5c8cd;font-size:13.5px}
+@media(max-width:900px){.vis-grid{grid-auto-rows:210px}.vis{grid-column:span 6!important;grid-row:span 1!important}}
+@media(max-width:560px){.vis{grid-column:span 12!important}}
 /* видео цеха в блоке «производитель» */
 .ceh-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .split-visual .tag{z-index:2;background:rgba(18,20,23,.72);backdrop-filter:blur(5px);border-color:transparent;color:#cfd2d7}
@@ -467,6 +485,7 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
     <nav class="nav-links">
       <a href="#types">Навесы</a>
       <a href="#configs">Цены</a>
+      <a href="#visual">Проекты</a>
       <a href="#projects">Производство</a>
       <a href="#process">Процесс</a>
       <a href="#advantages">О заводе</a>
@@ -567,6 +586,32 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
 
     </div>
     <p class="muted" style="font-size:13px;margin-top:22px">Цена под ключ, без скрытых смет. Точная стоимость — после расчёта каркаса под размеры участка и снеговую зону региона.</p>
+  </div>
+</section>
+
+<!-- ВИЗУАЛИЗАЦИИ / ГАЛЕРЕЯ -->
+<section id="visual">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Проекты и визуализации</span>
+      <h2>Как это будет<br>выглядеть у вас</h2>
+      <p>3D-визуализации решений FORTE STEEL под разные задачи и участки. Каждый навес проектируется индивидуально: конфигурация, кровля, деревянный потолок, цвет RAL — под ваш дом. Реальные фотографии объектов добавим после первых установок.</p>
+    </div>
+    <div class="vis-grid">
+      <figure class="vis reveal" style="grid-column:span 8;grid-row:span 2;background-image:url('assets/gen_hero.jpg')"><span class="vis-badge">3D-визуализация</span><figcaption><b>Флагманский навес</b><span>Графит RAL 7024 · дерево + скрытый LED</span></figcaption></figure>
+      <figure class="vis reveal" style="grid-column:span 4;grid-row:span 2;background-image:url('assets/gen_t_patio.jpg')"><span class="vis-badge">3D-визуализация</span><figcaption><b>Патио · терраса</b><span>Реечный потолок, зона отдыха</span></figcaption></figure>
+      <figure class="vis reveal" style="grid-column:span 6;background-image:url('assets/gen_c1.jpg')"><span class="vis-badge">3D-визуализация</span><figcaption><b>Открытый навес · 2 авто</b><span>7 × 6 м, высота 2,7 м</span></figcaption></figure>
+      <figure class="vis reveal" style="grid-column:span 6;background-image:url('assets/gen_c4.jpg')"><span class="vis-badge">3D-визуализация</span><figcaption><b>Навес 2 авто + хозблок</b><span>Единый силуэт под одной кровлей</span></figcaption></figure>
+      <figure class="vis reveal" style="grid-column:span 4;background-image:url('assets/gen_t_pool.jpg')"><span class="vis-badge">3D-визуализация</span><figcaption><b>Навес у бассейна</b><span>Пролёты под ландшафт</span></figcaption></figure>
+      <figure class="vis reveal" style="grid-column:span 4;background-image:url('assets/gen_c2.jpg')"><span class="vis-badge">3D-визуализация</span><figcaption><b>Навес · 4 авто</b><span>6,5 × 13 м</span></figcaption></figure>
+      <figure class="vis reveal" style="grid-column:span 4;background-image:url('assets/gen_t_kozyrek.jpg')"><span class="vis-badge">3D-визуализация</span><figcaption><b>Козырёк над входом</b><span>Точная геометрия входной группы</span></figcaption></figure>
+      <figure class="vis reveal" style="grid-column:span 6;background-image:url('assets/gen_c3.jpg')"><span class="vis-badge">3D-визуализация</span><figcaption><b>Навес 1 авто + хозблок</b><span>Навес 6,5 × 6,5 м · хозблок 3 × 6 м</span></figcaption></figure>
+      <figure class="vis reveal" style="grid-column:span 6;background-image:url('assets/gen_t_frame.jpg')"><span class="vis-badge">3D-визуализация</span><figcaption><b>Силовой каркас</b><span>Несущие металлоконструкции под нагрузку</span></figcaption></figure>
+    </div>
+    <div class="reveal" style="margin-top:30px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+      <a href="#contact" class="btn btn-accent">Прислать фото участка → 3D за 4 дня</a>
+      <span class="muted" style="font-size:13.5px;max-width:52ch">Пришлите размеры и фото участка — вернём индивидуальную 3D-визуализацию именно вашего навеса и смету под ключ.</span>
+    </div>
   </div>
 </section>
 
