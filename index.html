@@ -331,10 +331,28 @@ footer{border-top:1px solid var(--line);padding:70px 0 40px;background:var(--bg-
 }
 </style>
 <style id="upg">
+/* ====== БРОНЗА РМК (#B7866A) + металлический перелив цифр ====== */
+:root{--accent:#b7866a;--accent-2:#e6c9a8}
+/* металлический медно-бронзовый перелив (как цифры у РМК) */
+/* металлический медно-бронзовый перелив цифр (все на тёмном фоне) */
+.stat .n,.stat:first-child .n,.config-price,.pay .pct,.quiz-done .big,.sb-n .num,.sb-n .suf{
+  background-image:linear-gradient(100deg,#b7866a 0%,#e7c8a6 15%,#f6e6d0 25%,#cf9d73 38%,#b7866a 50%,#e7c8a6 65%,#f6e6d0 75%,#cf9d73 88%,#b7866a 100%);
+  background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:metalshine 5.5s linear infinite;display:inline-block}
+@keyframes metalshine{0%{background-position:0% 50%}100%{background-position:-200% 50%}}
+@media(prefers-reduced-motion:reduce){.stat .n,.config-price,.sb-n .num,.sb-n .suf,.pay .pct,.quiz-done .big{animation:none;background-position:15% 50%}}
+/* блок статистики — тёмный (чтобы медный перелив играл, как у РМК) */
+.stats-band{background:linear-gradient(180deg,#1a1d21,#141619)!important;color:var(--text)}
+.stats-band .sb-head{color:var(--accent)!important}
+.stats-band .sb-l{color:var(--muted)!important}
+.stats-band .sb{border-left-color:var(--accent)}
+
 /* ====== ПРЕМИУМ-АПГРЕЙД (паритет с Промэнерго) ====== */
 /* 1. Объёмные бронзовые иконки вместо тонких */
 .feat .fi{width:58px;height:58px;border-radius:15px;border:none;flex:none;
-  background:linear-gradient(155deg,#e2c894 0%,#c2a36b 48%,#8f7038 100%);
+  background:linear-gradient(155deg,#e6cba9 0%,#b7866a 48%,#7a4a2c 100%);
   box-shadow:0 8px 20px -8px rgba(194,163,107,.65),inset 0 1px 0 rgba(255,255,255,.5),inset 0 -4px 8px rgba(90,60,20,.4);
   position:relative;overflow:hidden;transition:.4s cubic-bezier(.2,.7,.2,1)}
 .feat .fi::after{content:"";position:absolute;inset:0;background:linear-gradient(158deg,rgba(255,255,255,.4),transparent 42%);pointer-events:none}
