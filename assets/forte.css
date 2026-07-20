@@ -221,3 +221,13 @@ a.type-card:hover .go{transform:translateX(6px);opacity:1}
 .ft-ft .lg b{color:var(--accent)}
 .ft-ft p{color:var(--muted);font-size:14px;max-width:60ch;margin:0 auto 8px}
 .ft-ft a{color:var(--accent);text-decoration:none}
+
+/* ============================================================
+   FX 2026 — живой металлический шейдер-слой на hero
+   ============================================================ */
+.fx-metal{position:absolute;inset:0;pointer-events:none;z-index:0;
+  mix-blend-mode:soft-light;opacity:.55;transition:opacity .6s}
+.dp-hero .fx-metal{z-index:1;opacity:.6}
+.dp-hero::after{z-index:2}
+.dp-hero .wrap{z-index:3}
+@media (prefers-reduced-motion:reduce){ .fx-metal{display:none} }
