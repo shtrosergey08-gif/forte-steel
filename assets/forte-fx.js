@@ -24,6 +24,17 @@
   function runReveals(){
     document.querySelectorAll('.dp-hero h1').forEach(function(el){ wordReveal(el,120,80,720,26); });
     document.querySelectorAll('.dp-hero .dp-sub').forEach(function(el){ wordReveal(el,760,20,600,14); });
+    heroEntrance();
+  }
+  // Staggered-вылет первого экрана главной ПОСЛЕ ухода прелоадера (приём Textura: reveal gated on loader)
+  function heroEntrance(){
+    var hero=document.querySelector('.hero-content'); if(!hero) return;
+    var kids=hero.querySelectorAll('.reveal'); if(!kids.length) return;
+    kids.forEach(function(el,i){
+      el.classList.remove('in');
+      el.style.transitionDelay=(120+i*130)+'ms';
+      requestAnimationFrame(function(){requestAnimationFrame(function(){ el.classList.add('in'); });});
+    });
   }
   if (!RM){
     if (document.getElementById('ft-pre')) document.addEventListener('ft:ready', runReveals, {once:true});
