@@ -95,15 +95,14 @@
   if (!document.getElementById('spark') && matchMedia('(pointer:fine)').matches && !RM){
     document.documentElement.classList.add('hascur');
     var dot=document.createElement('div'); dot.className='curdot'; document.body.appendChild(dot);
-    var mx=innerWidth/2,my=innerHeight/2,dx=mx,dy=my;
-    addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
+    // мгновенное следование за курсором (без сглаживания-догона)
+    addEventListener('mousemove',function(e){
+      dot.style.transform='translate('+e.clientX+'px,'+e.clientY+'px) translate(-50%,-50%)';
+    }, {passive:true});
     document.querySelectorAll('a,button,.dp-cross a,.dp-gal figure,summary,input').forEach(function(el){
       el.addEventListener('mouseenter',function(){dot.classList.add('big');});
       el.addEventListener('mouseleave',function(){dot.classList.remove('big');});
     });
-    (function loop(){ dx+=(mx-dx)*.22; dy+=(my-dy)*.22;
-      dot.style.transform='translate('+dx+'px,'+dy+'px) translate(-50%,-50%)';
-      requestAnimationFrame(loop); })();
   }
 
   /* ---------- год в футере ---------- */
