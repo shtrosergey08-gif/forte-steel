@@ -39,6 +39,7 @@
       setTimeout(function(){
         pre.classList.add('ft-open');
         document.documentElement.classList.remove('ft-loading');
+        setTimeout(function(){ document.dispatchEvent(new CustomEvent('ft:ready')); }, RM?0:480);
         setTimeout(function(){ pre.setAttribute('hidden',''); }, RM?200:1150);
       }, 220);
     }

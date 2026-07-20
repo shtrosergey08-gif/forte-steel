@@ -4,6 +4,35 @@
   'use strict';
   var RM = matchMedia('(prefers-reduced-motion:reduce)').matches;
 
+  /* ============ 0. WORD-BY-WORD REVEAL заголовков (приём Textura/getlayers) ============ */
+  function wordReveal(el, base, stagger, dur, dy){
+    if(el.dataset.wr) return; el.dataset.wr='1';
+    var words = el.textContent.trim().split(/\s+/);
+    el.textContent='';
+    words.forEach(function(w,i){
+      var sp=document.createElement('span');
+      sp.textContent=w;
+      sp.style.cssText='display:inline-block;will-change:transform,opacity;opacity:0;'
+        +'transform:translateY('+dy+'px);'
+        +'transition:opacity '+dur+'ms cubic-bezier(.16,1,.3,1),transform '+dur+'ms cubic-bezier(.16,1,.3,1);'
+        +'transition-delay:'+(base+i*stagger)+'ms';
+      el.appendChild(sp);
+      el.appendChild(document.createTextNode(' '));
+      requestAnimationFrame(function(){requestAnimationFrame(function(){
+        sp.style.opacity='1'; sp.style.transform='none';
+      });});
+    });
+  }
+  function runReveals(){
+    document.querySelectorAll('.dp-hero h1').forEach(function(el){ wordReveal(el,120,80,720,26); });
+    document.querySelectorAll('.dp-hero .dp-sub').forEach(function(el){ wordReveal(el,760,20,600,14); });
+  }
+  if (!RM){
+    if (document.getElementById('ft-pre')) document.addEventListener('ft:ready', runReveals, {once:true});
+    else runReveals();
+    setTimeout(runReveals, 4200); // страховка
+  }
+
   /* ============ 1. LENIS SMOOTH SCROLL (инерционный, «дорогой») ============ */
   if (!RM){
     var s = document.createElement('script');
