@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FORTE STEEL — Чек-лист замера навеса</title>
+<style>
+:root{--bg:#0d0d0f;--card:#17171a;--line:#2a2a2f;--tx:#eee;--tx2:#8a8d94;--ac:#e0a32a;--ok:#22c55e;--rd:#e02a2a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font:16px/1.55 -apple-system,system-ui,sans-serif;padding:14px 12px 60px;max-width:760px;margin:0 auto}
+h1{font-size:1.35rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+h1 b{color:var(--ac)}
+.sub{color:var(--tx2);font-size:.86rem;margin-bottom:16px}
+h2{font-size:1rem;text-transform:uppercase;letter-spacing:.05em;margin:22px 0 8px;padding-bottom:6px;border-bottom:2px solid var(--ac)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:10px}
+label{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line);cursor:pointer}
+label:last-child{border:0}
+input[type=checkbox]{width:20px;height:20px;flex:none;margin-top:2px;accent-color:var(--ok)}
+.t{flex:1}
+.t b{display:block}
+.t span{color:var(--tx2);font-size:.83rem}
+.crit{border-left:3px solid var(--rd);padding-left:9px}
+.crit .t b:after{content:" ⚠️"}
+.note{background:rgba(224,163,42,.09);border:1px solid rgba(224,163,42,.3);border-radius:8px;padding:11px;margin:12px 0;font-size:.88rem}
+.note b{color:var(--ac)}
+.tools{display:flex;flex-wrap:wrap;gap:6px}
+.tools span{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:5px 11px;font-size:.83rem}
+.done{opacity:.45;text-decoration:line-through}
+#bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);padding:11px 14px;display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
+#bar b{color:var(--ok)}
+.rst{background:none;border:1px solid var(--line);color:var(--tx2);border-radius:6px;padding:5px 11px;font-size:.8rem}
+</style>
+</head>
+<body>
+<h1>Замер навеса — <b>FORTE STEEL</b></h1>
+<div class="sub">Снять ВСЁ за один выезд. Что не снимем — Вадим не посчитает КМД, придётся ехать снова.</div>
+
+<div class="note"><b>Главное правило:</b> на объекте только СНИМАЕМ данные. Ничего не обещаем и не согласовываем — решения принимает заказчик, а не работник на участке. Все размеры дублируем фото.</div>
+
+<h2>🧰 Взять с собой</h2>
+<div class="card"><div class="tools">
+<span>Рулетка 10 м</span><span>Лазерный дальномер</span><span>Уровень / нивелир</span>
+<span>Колышки + краска</span><span>Лопата (копнуть грунт)</span><span>Блокнот А4 для эскиза</span>
+<span>Телефон (фото+видео)</span><span>Повербанк</span>
+</div></div>
+
+<h2>1 · Габариты площадки</h2>
+<div class="card">
+<label><input type="checkbox"><div class="t"><b>Длина × ширина места под навес</b><span>Замерить рулеткой, забить колышки по углам</span></div></label>
+<label class="crit"><input type="checkbox"><div class="t"><b>Привязки к объектам</b><span>Расстояние до дома, гаража, забора, границы участка. Без привязок навес не посадить на плане</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Габариты машин заказчика</b><span>Длина/ширина/ВЫСОТА каждой. УАЗ/внедорожник ≠ седан — от этого высота навеса</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Как машины заезжают</b><span>Задним/передним, радиус разворота, откуда заезд</span></div></label>
+</div>
+
+<h2>2 · Высоты</h2>
+<div class="card">
+<label class="crit"><input type="checkbox"><div class="t"><b>Провода над участком</b><span>Высота воздушных линий! Если навес выше — это стоп. Замерить обязательно</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Высота проезда под навесом</b><span>С запасом над самой высокой машиной</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Высота дома / гаража</b><span>Если примыкаем — до карниза и до конька</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Свес крыши дома</b><span>Куда льёт вода и сходит снег — не на навес ли</span></div></label>
+</div>
+
+<h2>3 · Рельеф и грунт</h2>
+<div class="card">
+<label class="crit"><input type="checkbox"><div class="t"><b>Перепад высот по углам</b><span>Уровнем/нивелиром замерить все 4 угла. Уклон = фундамент и водоотвод</span></div></label>
+<label class="crit"><input type="checkbox"><div class="t"><b>Копнуть грунт</b><span>Что под ногами: песок / суглинок / глина / насыпной. Сфоткать срез лопаты</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Где стоит вода после дождя</b><span>Спросить у хозяина/работника. Подтопление = другой фундамент</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Есть ли готовое основание</b><span>Бетонная плита / отсыпка / «в земле». Плита экономит деньги</span></div></label>
+</div>
+
+<h2>4 · Примыкание (экономия!)</h2>
+<div class="card">
+<label class="crit"><input type="checkbox"><div class="t"><b>Можно ли примкнуть к дому/гаражу</b><span>Если да — минус 2-3 столба и фундамента под них. Самая честная экономия</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Материал стены</b><span>Кирпич / газоблок / брус / сэндвич — к чему крепить и чем</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Фото стены примыкания</b><span>Целиком + крупно место крепления</span></div></label>
+</div>
+
+<h2>5 · Коммуникации ⚠️ ЗДЕСЬ ТЕРЯЮТ ДЕНЬГИ</h2>
+<div class="card">
+<label class="crit"><input type="checkbox"><div class="t"><b>Что проходит ПОД площадкой</b><span>Водопровод, канализация, кабель, газ. Спросить прямо. Попадём буром в трубу — платим мы</span></div></label>
+<label class="crit"><input type="checkbox"><div class="t"><b>Воздушные линии над участком</b><span>Электрика, интернет. Высота + где столбы</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Откуда тянуть электрику под LED</b><span>Где щиток, расстояние, есть ли свободный автомат</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Есть ли 220/380 на объекте для сварки</b><span>Если нет — нужен генератор, это в смету</span></div></label>
+</div>
+
+<h2>6 · Водоотвод</h2>
+<div class="card">
+<label><input type="checkbox"><div class="t"><b>Куда сбрасывать воду с навеса</b><span>Ливнёвки у нас скрытые — нужна точка сброса</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Есть ли дренаж на участке</b><span>Куда уходит вода естественным путём</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Направление уклона участка</b><span>Куда течёт — туда и скат</span></div></label>
+</div>
+
+<h2>7 · Снос старого (если есть)</h2>
+<div class="card">
+<label><input type="checkbox"><div class="t"><b>Габариты постройки под снос</b><span>Длина × ширина × высота</span></div></label>
+<label class="crit"><input type="checkbox"><div class="t"><b>Из чего построена</b><span>Дерево / кирпич / шлакоблок / металл. От этого способ и цена сноса</span></div></label>
+<label class="crit"><input type="checkbox"><div class="t"><b>Фундамент под ней есть?</b><span>Какой, надо ли выламывать. Бетон под снос = отдельные деньги и техника</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Куда вывозить мусор, объём</b><span>Прикинуть в кубах → это контейнер и вывоз в смету</span></div></label>
+</div>
+
+<h2>8 · Ориентация и снег</h2>
+<div class="card">
+<label><input type="checkbox"><div class="t"><b>Стороны света</b><span>Компас в телефоне. Куда делать скат</span></div></label>
+<label class="crit"><input type="checkbox"><div class="t"><b>Куда сходит снег с крыши дома</b><span>Если на навес — нужны снегозадержатели или другой узел. Частая ошибка</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Роза ветров / открытое место</b><span>Ветровая нагрузка</span></div></label>
+</div>
+
+<h2>9 · Логистика монтажа</h2>
+<div class="card">
+<label class="crit"><input type="checkbox"><div class="t"><b>Ширина заезда / ворот</b><span>Пройдёт ли манипулятор. Замерить! Не пройдёт — таскаем руками, это деньги</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Может ли встать кран-манипулятор</b><span>Место под опоры, нет ли проводов над точкой разгрузки</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Где складировать металл</b><span>Площадка рядом с местом монтажа</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Состояние подъезда</b><span>Асфальт/грунтовка. В дождь фура зайдёт?</span></div></label>
+</div>
+
+<h2>10 · Фото и видео (обязательно)</h2>
+<div class="card">
+<label class="crit"><input type="checkbox"><div class="t"><b>Общий план с 4 сторон</b><span>Встать по углам участка, снять место под навес</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Место под навес крупно</b><span>С колышками по углам</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Дом и гараж</b><span>Для примыкания и для визуализации в стиле дома</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Постройка под снос</b><span>Со всех сторон + фундамент</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Заезд, ворота, подъездная дорога</b></div></label>
+<label><input type="checkbox"><div class="t"><b>Провода над участком</b></div></label>
+<label class="crit"><input type="checkbox"><div class="t"><b>ВИДЕО-обход с комментариями</b><span>Идёшь и проговариваешь вслух: «здесь навес, тут дом, сюда уклон». Вадиму это лучше 20 фото</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Эскиз от руки с размерами</b><span>Нарисовать план + сфоткать. Обязательно</span></div></label>
+</div>
+
+<h2>11 · Вопросы заказчику</h2>
+<div class="card">
+<label><input type="checkbox"><div class="t"><b>Сколько машин и какие именно</b></div></label>
+<label><input type="checkbox"><div class="t"><b>Нужен ли хозблок / кладовка</b></div></label>
+<label><input type="checkbox"><div class="t"><b>Нужна ли LED-подсветка</b></div></label>
+<label><input type="checkbox"><div class="t"><b>Сроки — когда хочет получить</b></div></label>
+<label><input type="checkbox"><div class="t"><b>Что важнее: бюджет или внешний вид</b><span>От этого ведём разговор дальше</span></div></label>
+<label><input type="checkbox"><div class="t"><b>Есть ли доп. хотелки</b><span>Забор, ворота, площадка под мангал — апселл</span></div></label>
+</div>
+
+<div class="note"><b>После замера — сразу:</b> скинуть Вадиму фото + видео + эскиз с размерами, чтобы он начал КМД. И в тот же день записать всё в карточку CRM, пока не выветрилось.</div>
+
+<div id="bar"><span>Отмечено: <b id="n">0</b> / <span id="all">0</span></span><button class="rst" onclick="localStorage.removeItem('zm');location.reload()">Сбросить</button></div>
+
+<script>
+const B=[...document.querySelectorAll('input[type=checkbox]')];
+document.getElementById('all').textContent=B.length;
+const S=JSON.parse(localStorage.getItem('zm')||'[]');
+function upd(){
+  const d=B.filter(b=>b.checked).length;
+  document.getElementById('n').textContent=d;
+  B.forEach(b=>b.closest('label').classList.toggle('done',b.checked));
+  localStorage.setItem('zm',JSON.stringify(B.map(b=>b.checked)));
+}
+B.forEach((b,i)=>{b.checked=!!S[i];b.addEventListener('change',upd)});
+upd();
+</script>
+</body>
+</html>

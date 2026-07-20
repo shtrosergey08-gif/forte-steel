@@ -1,0 +1,223 @@
+/* ============================================================
+   FORTE STEEL · CORE 2026
+   Прелоадер «ворота цеха» + View Transitions (MPA) +
+   scroll-driven reveal + детальные страницы
+   ============================================================ */
+
+/* ---- MPA View Transitions (нативные, Chrome/Edge/Safari 2026) ---- */
+@view-transition { navigation: auto; }
+
+@keyframes ft-fade-in  { from{opacity:0}                      to{opacity:1} }
+@keyframes ft-fade-out { from{opacity:1}                      to{opacity:0} }
+@keyframes ft-rise     { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:none} }
+@keyframes ft-sink     { from{opacity:1;transform:none} to{opacity:0;transform:translateY(-24px)} }
+
+::view-transition-old(root){ animation: ft-sink .42s cubic-bezier(.7,0,.3,1) both; }
+::view-transition-new(root){ animation: ft-rise .52s cubic-bezier(.16,1,.3,1) both; }
+
+/* именованный морфинг: карточка → hero детальной страницы */
+::view-transition-group(hero-media){ animation-duration:.6s; animation-timing-function:cubic-bezier(.16,1,.3,1); }
+.vt-hero{ view-transition-name: hero-media; }
+
+@media (prefers-reduced-motion: reduce){
+  ::view-transition-old(root),::view-transition-new(root){ animation:ft-fade-in .2s both; }
+}
+
+/* ============================================================
+   ПРЕЛОАДЕР — «ворота цеха» с брендом FORTE STEEL 0→100
+   ============================================================ */
+#ft-pre{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;overflow:hidden;
+  background:#0d0e10;--p:0}
+#ft-pre[hidden]{display:none}
+html.ft-loading{overflow:hidden}
+
+/* две графитовые створки-ворота */
+#ft-pre .ft-gate{position:absolute;left:0;width:100%;height:50.2%;z-index:2;
+  background:
+    linear-gradient(180deg,#17191c,#101113);
+  box-shadow:inset 0 0 120px rgba(0,0,0,.6);
+  transition:transform 1.05s cubic-bezier(.76,0,.24,1);will-change:transform}
+#ft-pre .ft-gate::after{content:"";position:absolute;left:0;width:100%;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(194,163,107,.9),transparent);opacity:0;transition:opacity .4s}
+#ft-pre .ft-gate.top{top:0;background-image:
+    repeating-linear-gradient(90deg,rgba(255,255,255,.014) 0 2px,transparent 2px 46px),
+    linear-gradient(180deg,#191b1e,#0f1012)}
+#ft-pre .ft-gate.top::after{bottom:0}
+#ft-pre .ft-gate.bot{bottom:0;background-image:
+    repeating-linear-gradient(90deg,rgba(255,255,255,.014) 0 2px,transparent 2px 46px),
+    linear-gradient(0deg,#191b1e,#0f1012)}
+#ft-pre .ft-gate.bot::after{top:0}
+
+/* контент по центру */
+#ft-pre .ft-core{position:relative;z-index:4;text-align:center;padding:0 24px;
+  transition:opacity .5s,transform .6s}
+#ft-pre .ft-brand{font-family:'Unbounded',system-ui,sans-serif;font-weight:800;
+  font-size:clamp(30px,7vw,72px);letter-spacing:.06em;line-height:1;position:relative;display:inline-block}
+/* металлическая заливка бренда по прогрессу */
+#ft-pre .ft-brand .fill{position:relative;color:transparent;
+  background:linear-gradient(180deg,#e9d9b6,#c2a36b 55%,#8a6f42);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-mask:linear-gradient(180deg,#000 0,#000 100%);
+  clip-path:inset(calc(100% - var(--p) * 1%) 0 0 0);transition:clip-path .25s linear}
+#ft-pre .ft-brand .ghost{position:absolute;inset:0;color:transparent;
+  -webkit-text-stroke:1px rgba(194,163,107,.34);text-stroke:1px rgba(194,163,107,.34)}
+#ft-pre .ft-tag{margin-top:18px;font-family:'Manrope',sans-serif;font-size:11px;letter-spacing:.42em;
+  text-transform:uppercase;color:#6f7178}
+/* прогресс-линия + счётчик */
+#ft-pre .ft-bar{margin:30px auto 0;width:min(260px,60vw);height:2px;background:rgba(255,255,255,.08);position:relative;border-radius:2px;overflow:hidden}
+#ft-pre .ft-bar i{position:absolute;left:0;top:0;height:100%;width:calc(var(--p)*1%);
+  background:linear-gradient(90deg,#8a6f42,#d8bd8a);box-shadow:0 0 14px rgba(216,189,138,.6);transition:width .25s linear}
+#ft-pre .ft-num{margin-top:14px;font-family:'Unbounded',sans-serif;font-weight:600;font-size:13px;
+  letter-spacing:.14em;color:#c2a36b;font-variant-numeric:tabular-nums}
+/* сканирующий блик металла */
+#ft-pre .ft-scan{position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.05) 50%,transparent 60%);
+  background-size:250% 100%;animation:ft-scan 2.6s ease-in-out infinite}
+@keyframes ft-scan{0%{background-position:180% 0}100%{background-position:-80% 0}}
+/* искры сварки */
+#ft-pre canvas.ft-spark{position:absolute;inset:0;z-index:3;pointer-events:none}
+
+/* состояние «открытие ворот» */
+#ft-pre.ft-open .ft-gate.top{transform:translateY(-100%)}
+#ft-pre.ft-open .ft-gate.bot{transform:translateY(100%)}
+#ft-pre.ft-open .ft-gate::after{opacity:1}
+#ft-pre.ft-open .ft-core{opacity:0;transform:translateY(-14px)}
+@media (prefers-reduced-motion: reduce){
+  #ft-pre .ft-scan{animation:none}
+  #ft-pre .ft-gate{transition:opacity .4s}
+}
+
+/* ============================================================
+   REVEAL при скролле (усиление) — управляется JS-обсервером
+   ============================================================ */
+.ft-rv{opacity:0;transform:translateY(34px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.ft-rv.in{opacity:1;transform:none}
+.ft-rv.d1{transition-delay:.08s}.ft-rv.d2{transition-delay:.16s}.ft-rv.d3{transition-delay:.24s}.ft-rv.d4{transition-delay:.32s}
+
+/* clip-reveal для «крутых переходов» секций (scroll-driven, где поддерживается) */
+@supports (animation-timeline: view()){
+  .ft-clip{animation:ft-clip linear both;animation-timeline:view();animation-range:entry 0% entry 62%}
+  @keyframes ft-clip{from{clip-path:inset(14% 8% round 26px);opacity:.35;transform:scale(.97)}
+                     to{clip-path:inset(0% 0% round 0);opacity:1;transform:none}}
+  .ft-par{animation:ft-par linear both;animation-timeline:view();animation-range:entry 0% exit 100%}
+  @keyframes ft-par{from{transform:translateY(6%)}to{transform:translateY(-6%)}}
+}
+
+/* ============================================================
+   ДЕТАЛЬНЫЕ СТРАНИЦЫ (услуги / конфигурации / проекты)
+   ============================================================ */
+.dp-hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;overflow:hidden;
+  border-bottom:1px solid var(--line)}
+.dp-hero .dp-bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0;
+  transform:scale(1.04)}
+.dp-hero::after{content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,rgba(13,14,16,.55) 0%,rgba(13,14,16,.2) 40%,rgba(13,14,16,.92) 100%)}
+.dp-hero .wrap{position:relative;z-index:2;padding-top:120px;padding-bottom:56px}
+.dp-back{display:inline-flex;align-items:center;gap:9px;color:var(--accent);text-decoration:none;
+  font-size:13px;letter-spacing:.08em;margin-bottom:26px;transition:gap .2s}
+.dp-back:hover{gap:15px}
+.dp-eyebrow{font-family:'Unbounded';font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.dp-hero h1{font-family:'Unbounded';font-weight:800;font-size:clamp(32px,6vw,64px);letter-spacing:-.03em;line-height:1.02;max-width:16ch}
+.dp-hero .dp-sub{margin-top:20px;color:var(--muted);font-size:clamp(15px,2vw,19px);max-width:56ch}
+.dp-hero .dp-price{margin-top:26px;display:inline-flex;align-items:baseline;gap:12px;
+  background:rgba(18,20,23,.6);border:1px solid var(--line);border-radius:14px;padding:14px 22px;backdrop-filter:blur(6px)}
+.dp-hero .dp-price b{font-family:'Unbounded';font-size:24px;color:var(--accent-2)}
+.dp-hero .dp-price span{font-size:12px;color:var(--muted);letter-spacing:.06em}
+
+.dp-sec{padding:78px 0;border-bottom:1px solid var(--line)}
+.dp-sec .k{font-family:'Unbounded';font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.dp-sec h2{font-family:'Unbounded';font-weight:700;font-size:clamp(24px,3.6vw,38px);letter-spacing:-.02em;margin-bottom:18px}
+.dp-sec p.lead{color:var(--muted);font-size:17px;max-width:64ch;line-height:1.7}
+
+.dp-feat{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.dp-feat .c{background:linear-gradient(160deg,var(--bg-2),var(--surface));border:1px solid var(--line);
+  border-radius:16px;padding:26px}
+.dp-feat .c .i{width:42px;height:42px;border-radius:11px;background:rgba(194,163,107,.12);color:var(--accent);
+  display:grid;place-items:center;margin-bottom:15px;font-size:20px}
+.dp-feat .c h3{font-size:17px;margin-bottom:8px}
+.dp-feat .c p{color:var(--muted);font-size:14px;line-height:1.6}
+
+.dp-inc{margin-top:36px;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.dp-inc .r{display:flex;align-items:center;gap:14px;padding:15px 22px;border-bottom:1px solid var(--line);font-size:15.5px}
+.dp-inc .r:last-child{border-bottom:0}.dp-inc .r:nth-child(odd){background:var(--bg-2)}
+.dp-inc .r .ck{color:var(--accent);flex:none}
+
+.dp-gal{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-top:40px}
+.dp-gal figure{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;aspect-ratio:4/3;grid-column:span 2;margin:0}
+.dp-gal figure.big{grid-column:span 4;grid-row:span 2}
+.dp-gal img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.dp-gal figure:hover img{transform:scale(1.05)}
+
+.dp-cross{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.dp-cross a{display:block;position:relative;border-radius:16px;overflow:hidden;aspect-ratio:16/11;
+  text-decoration:none;border:1px solid var(--line)}
+.dp-cross a .bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .6s}
+.dp-cross a:hover .bg{transform:scale(1.06)}
+.dp-cross a::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(13,14,16,.86),transparent 60%)}
+.dp-cross a b{position:absolute;left:18px;bottom:16px;z-index:2;font-family:'Unbounded';font-size:15px;color:#fff}
+.dp-cross a span{position:absolute;left:18px;bottom:-2px;z-index:2;font-size:12px;color:var(--accent-2);opacity:0;transform:translateY(10px);transition:.3s}
+.dp-cross a:hover span{opacity:1;transform:none;bottom:2px}
+
+.dp-cta{padding:84px 0;text-align:center;
+  background:radial-gradient(700px 300px at 50% 0%,rgba(194,163,107,.12),transparent)}
+.dp-cta h2{font-family:'Unbounded';font-size:clamp(26px,4vw,42px);margin-bottom:14px}
+.dp-cta p{color:var(--muted);margin-bottom:30px}
+
+@media(max-width:820px){
+  .dp-feat,.dp-cross{grid-template-columns:1fr 1fr}
+  .dp-gal{grid-template-columns:repeat(2,1fr)}
+  .dp-gal figure,.dp-gal figure.big{grid-column:span 1;grid-row:auto}
+}
+@media(max-width:520px){ .dp-feat,.dp-cross{grid-template-columns:1fr} }
+
+/* защита изображений */
+img,.vis,.type-card,.config-vis,.dp-bg{ -webkit-user-drag:none; user-select:none; }
+
+/* ---- карточки-ссылки на главной ---- */
+a.type-card,a.config-card,a.vis{text-decoration:none;color:inherit;cursor:pointer}
+.type-card .from .go,.vis .go{display:inline-block;transition:transform .3s;opacity:.7}
+a.type-card:hover .go{transform:translateX(6px);opacity:1}
+/* подписи галереи (figcaption -> .vis-cap) */
+.vis .vis-cap{position:relative;z-index:2;padding:22px 24px;width:100%}
+.vis .vis-cap b{font-family:'Unbounded';font-size:19px;display:block;letter-spacing:-.01em;color:#fff}
+.vis .vis-cap span{color:#c5c8cd;font-size:13.5px}
+.vis::after{content:"↗";position:absolute;top:16px;right:18px;z-index:3;color:#fff;font-size:18px;
+  opacity:0;transform:translateY(-6px);transition:.3s}
+.vis:hover::after{opacity:.95;transform:none}
+
+/* ============================================================
+   БАЗОВЫЙ СЛОЙ для детальных страниц (главная имеет свой инлайн)
+   ============================================================ */
+.dp-page{
+  --bg:#16181b;--bg-2:#1c1f23;--surface:#24272c;--line:#33373d;
+  --text:#f0f1f3;--muted:#b4b8c1;--accent:#c2a36b;--accent-2:#d8bd8a;--ink:#1a1c1f;--max:1280px;
+  background:var(--bg);color:var(--text);
+  font-family:'Manrope',-apple-system,system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+.dp-page *{margin:0;padding:0;box-sizing:border-box}
+.dp-page .wrap{max-width:var(--max);margin:0 auto;padding:0 clamp(18px,4vw,40px)}
+.dp-page h1,.dp-page h2,.dp-page h3,.dp-page h4{font-family:'Unbounded',sans-serif}
+.dp-page img{max-width:100%}
+.dp-page a{color:inherit}
+.ft-btn{display:inline-flex;align-items:center;gap:10px;padding:15px 30px;border-radius:14px;
+  font-family:'Manrope';font-weight:600;font-size:15px;text-decoration:none;cursor:pointer;border:none;transition:.25s}
+.ft-btn.p{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#1a1207}
+.ft-btn.p:hover{filter:brightness(1.07);transform:translateY(-2px)}
+.ft-btn.g{border:1px solid var(--line);color:var(--text)}
+.ft-btn.g:hover{border-color:var(--accent)}
+/* шапка */
+.ft-hd{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;
+  padding:16px clamp(18px,4vw,40px);backdrop-filter:blur(12px);
+  background:linear-gradient(180deg,rgba(13,14,16,.82),rgba(13,14,16,.35));border-bottom:1px solid var(--line-soft,rgba(255,255,255,.06))}
+.ft-hd .lg{font-family:'Unbounded';font-weight:800;letter-spacing:.14em;font-size:16px;text-decoration:none;color:#fff}
+.ft-hd .lg b{color:var(--accent)}
+.ft-hd .nav{display:flex;align-items:center;gap:26px}
+.ft-hd .nav a{font-size:14px;color:var(--muted);text-decoration:none;transition:.2s}
+.ft-hd .nav a:hover{color:var(--accent)}
+.ft-hd .tel{font-family:'Unbounded';font-size:14px;color:#fff;text-decoration:none}
+@media(max-width:720px){.ft-hd .nav{display:none}}
+/* футер */
+.ft-ft{padding:56px 0 40px;border-top:1px solid var(--line);background:var(--bg-2);text-align:center}
+.ft-ft .lg{font-family:'Unbounded';font-weight:800;letter-spacing:.14em;font-size:18px;color:#fff;display:block;margin-bottom:14px}
+.ft-ft .lg b{color:var(--accent)}
+.ft-ft p{color:var(--muted);font-size:14px;max-width:60ch;margin:0 auto 8px}
+.ft-ft a{color:var(--accent);text-decoration:none}
