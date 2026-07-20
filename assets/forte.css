@@ -95,13 +95,8 @@ html.ft-loading{overflow:hidden}
 .ft-rv.d1{transition-delay:.08s}.ft-rv.d2{transition-delay:.16s}.ft-rv.d3{transition-delay:.24s}.ft-rv.d4{transition-delay:.32s}
 
 /* clip-reveal для «крутых переходов» секций (scroll-driven, где поддерживается) */
-@supports (animation-timeline: view()){
-  .ft-clip{animation:ft-clip linear both;animation-timeline:view();animation-range:entry 0% entry 62%}
-  @keyframes ft-clip{from{clip-path:inset(14% 8% round 26px);opacity:.35;transform:scale(.97)}
-                     to{clip-path:inset(0% 0% round 0);opacity:1;transform:none}}
-  .ft-par{animation:ft-par linear both;animation-timeline:view();animation-range:entry 0% exit 100%}
-  @keyframes ft-par{from{transform:translateY(6%)}to{transform:translateY(-6%)}}
-}
+/* scroll-driven animation-timeline убран (лагал скролл) */
+
 
 /* ============================================================
    ДЕТАЛЬНЫЕ СТРАНИЦЫ (услуги / конфигурации / проекты)
@@ -120,7 +115,7 @@ html.ft-loading{overflow:hidden}
 .dp-hero h1{font-family:'Unbounded';font-weight:800;font-size:clamp(32px,6vw,64px);letter-spacing:-.03em;line-height:1.12;max-width:16ch;padding-top:.08em}
 .dp-hero .dp-sub{margin-top:22px;color:var(--muted);font-size:clamp(15px,2vw,19px);max-width:58ch;line-height:1.7}
 .dp-hero .dp-price{margin-top:26px;display:inline-flex;align-items:baseline;gap:12px;
-  background:rgba(18,20,23,.6);border:1px solid var(--line);border-radius:14px;padding:14px 22px;backdrop-filter:blur(6px)}
+  background:rgba(18,20,23,.6);border:1px solid var(--line);border-radius:14px;padding:14px 22px}
 .dp-hero .dp-price b{font-family:'Unbounded';font-size:24px;color:var(--accent-2)}
 .dp-hero .dp-price span{font-size:12px;color:var(--muted);letter-spacing:.06em}
 
@@ -206,7 +201,7 @@ a.type-card:hover .go{transform:translateX(6px);opacity:1}
 .ft-btn.g:hover{border-color:var(--accent)}
 /* шапка */
 .ft-hd{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;
-  padding:16px clamp(18px,4vw,40px);backdrop-filter:blur(12px);
+  padding:16px clamp(18px,4vw,40px);
   background:linear-gradient(180deg,rgba(13,14,16,.82),rgba(13,14,16,.35));border-bottom:1px solid var(--line-soft,rgba(255,255,255,.06))}
 .ft-hd .lg{font-family:'Unbounded';font-weight:800;letter-spacing:.14em;font-size:16px;text-decoration:none;color:#fff}
 .ft-hd .lg b{color:var(--accent)}
@@ -231,3 +226,10 @@ a.type-card:hover .go{transform:translateX(6px);opacity:1}
 .dp-hero::after{z-index:2}
 .dp-hero .wrap{z-index:3}
 @media (prefers-reduced-motion:reduce){ .fx-metal{display:none} }
+
+/* ============================================================
+   ПРОИЗВОДИТЕЛЬНОСТЬ: offscreen-секции не рендерятся (длинная страница, тяжёлые фоны)
+   ============================================================ */
+#types,#configs,#visual,#projects,#process,#advantages,#faq,#testimonials{
+  content-visibility:auto; contain-intrinsic-size:auto 900px;
+}
