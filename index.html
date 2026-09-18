@@ -997,13 +997,16 @@ addEventListener('mousemove',e=>{if(!hero)return;const x=(e.clientX/innerWidth-.
         body:JSON.stringify(payload)
       });
     }catch(e){/* лид сохраним локально */}
-    // TG-уведомление
+    // Заявка уходит на наш сервер: он кладёт её в CRM (воронка «Навесы») и сам шлёт уведомление в Telegram.
+    // Токен бота живёт только на сервере — в этом файле его нет (18.09.2026).
     try{
-      const tgText=`🏗 <b>Новая заявка FORTE STEEL</b>\n👤 ${name} | 📞 ${phone}\n🏙 Город: ${city||'—'}\n🔸 Объект: ${answers['Тип']||'—'}\n📐 Размер: ${answers['Размер']||'—'}\n🏠 Кровля: ${answers['Кровля']||'—'}`;
-      await fetch(`https://api.telegram.org/bot8761007656:AAG65oJB68zNSe7ZL4yeojD6y735rsBMgBw/sendMessage`,{
+      await fetch('https://gestracrm.80-78-253-100.sslip.io/api/lead-intake',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({chat_id:'799060469',text:tgText,parse_mode:'HTML'})
+        body:JSON.stringify({
+          name:name, phone:phone, source:'FORTE STEEL — сайт',
+          comment:`Город: ${city||'—'} | Объект: ${answers['Тип']||'—'} | Размер: ${answers['Размер']||'—'} | Кровля: ${answers['Кровля']||'—'} | ${location.href}`
+        })
       });
     }catch(e){}
     try{localStorage.setItem('forte_lead_'+Date.now(),JSON.stringify(payload));}catch(e){}
